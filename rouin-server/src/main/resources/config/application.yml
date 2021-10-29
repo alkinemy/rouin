@@ -2,3 +2,10 @@ spring:
   application:
     name: rouin
 server.port: 10180
+
+rouin:
+  plaid:
+    environment: DEVELOPMENT # SANDBOX, DEVELOPMENT, PRODUCTION
+    client-id: ${PLAID_CLIENT_ID}
+    secret: ${PLAID_SECRET}
+    version: 2021-09-14
