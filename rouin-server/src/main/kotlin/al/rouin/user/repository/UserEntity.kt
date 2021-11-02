@@ -1,6 +1,6 @@
-package al.rouin.user
+package al.rouin.user.repository
 
-import al.rouin.token.AccessToken
+import al.rouin.common.UserId
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
 
@@ -14,15 +14,6 @@ class UserEntity(
     val userId: String,
     @Column(name = "email", unique = true)
     val email: String,
-    @Column(name = "access_token")
-    val accessToken: String,
-    @Column(name = "item_id")
-    val itemId: String,
 ) {
-    @Transient
-    fun toUser() = User(
-        userId = userId,
-        email = email,
-        accessToken = AccessToken(token = accessToken)
-    )
+    constructor(email: String) : this(null, UserId.newId().id, email)
 }

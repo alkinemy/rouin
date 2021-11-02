@@ -1,24 +1,38 @@
 package al.rouin.user
 
-import al.rouin.token.PublicToken
+import al.rouin.common.UserId
 import al.rouin.token.TokenService
+import al.rouin.token.accesstoken.UserNotFoundException
+import al.rouin.token.temporarytoken.PublicToken
+import al.rouin.user.repository.UserEntity
+import al.rouin.user.repository.UserRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class UserService(
     private val tokenService: TokenService,
     private val userRepository: UserRepository,
 ) {
-    fun create(email: String, publicToken: PublicToken): User {
-        val accessItemToken = tokenService.exchangePublicTokenToAccessToken(publicToken)
-        val userId = UUID.randomUUID().toString()
-        val entity = UserEntity(
-            userId = userId,
-            email = email,
-            accessToken = accessItemToken.accessToken.token,
-            itemId = accessItemToken.itemId
+    fun create(email: String): UserId {
+        val entity = userRepository.save(
+            UserEntity(email = email)
         )
-        return userRepository.save(entity).toUser()
+        return UserId(entity.userId)
+    }
+
+    fun registerToken(userId: UserId, token: PublicToken) {
+        val accessToken = tokenService.exchangePublicTokenToAccessToken(token)
+        tokenService.saveAccessToken(userId = userId, accessToken = accessToken)
+    }
+
+    fun getUser(userId: UserId): User {
+        //TODO join table
+        val entity = userRepository.findByUserId(userId = userId.id) ?: throw UserNotFoundException("User doesn't exist")
+        val accessTokens = tokenService.getAccessTokens(userId = userId)
+        return User(
+            userId = UserId.id(entity.userId),
+            email = entity.email,
+            accessTokens = accessTokens
+        )
     }
 }

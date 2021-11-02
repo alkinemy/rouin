@@ -1,4 +1,4 @@
-package al.rouin.config
+package al.rouin.common
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.NoRepositoryBean
