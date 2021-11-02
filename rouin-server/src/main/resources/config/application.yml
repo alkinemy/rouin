@@ -8,4 +8,4 @@ rouin:
     environment: DEVELOPMENT # SANDBOX, DEVELOPMENT, PRODUCTION
     client-id: ${PLAID_CLIENT_ID}
     secret: ${PLAID_SECRET}
-    version: 2021-09-14
+    version: 2020-09-14
