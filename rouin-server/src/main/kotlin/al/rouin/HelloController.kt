@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class HelloController {
 
-    @GetMapping(path = ["/hello"])
+    @GetMapping("/hello")
     fun hello() = "Hello Rouin!"
     
 }

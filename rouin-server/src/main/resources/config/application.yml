@@ -9,3 +9,5 @@ rouin:
     client-id: ${PLAID_CLIENT_ID}
     secret: ${PLAID_SECRET}
     version: 2020-09-14
+    country-code: CA
+    language: en

@@ -1,4 +1,4 @@
-package al.rouin.config
+package al.rouin.config.plaid
 
 import com.plaid.client.ApiClient
 import com.plaid.client.request.PlaidApi
@@ -17,16 +17,10 @@ class PlaidConfig(
             mapOf(
                 "clientId" to plaidProperties.clientId,
                 "secret" to plaidProperties.secret,
-                "plaidVersion" to plaidProperties.secret
+                "plaidVersion" to plaidProperties.version
             )
         )
-        apiClient.setPlaidAdapter(plaidProperties.environment.environmentName)
+        apiClient.setPlaidAdapter(plaidProperties.environment.endpoint)
         return apiClient.createService(PlaidApi::class.java)
     }
-}
-
-enum class PlaidEnvironment(val environmentName: String) {
-    SANDBOX(ApiClient.Sandbox),
-    DEVELOPMENT(ApiClient.Development),
-    PRODUCTION(ApiClient.Production)
 }
