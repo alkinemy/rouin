@@ -15,7 +15,10 @@ class UserService(
 ) {
     fun create(email: String): UserId {
         val entity = userRepository.save(
-            UserEntity(email = email)
+            UserEntity(
+                userId = UserId.newId().id,
+                email = email
+            )
         )
         return UserId(entity.userId)
     }

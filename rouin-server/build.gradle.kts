@@ -2,13 +2,14 @@ plugins {
     id("org.springframework.boot") version Versions.springBoot
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("plugin.spring") version Versions.kotlin
+    kotlin("plugin.jpa") version Versions.kotlin
 }
 
 dependencies {
     "implementation"("org.springframework.boot:spring-boot-starter-web")
     "implementation"("org.springframework.boot:spring-boot-starter-data-jpa")
-    "implementation"("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
-
+    "implementation"("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}")
+    "implementation"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${Versions.jackson}")
 
     //bank library
     "implementation"("com.plaid:plaid-java:9.5.0")
