@@ -15,5 +15,8 @@ class UserEntity(
     @Column(name = "email", unique = true)
     val email: String,
 ) {
-    constructor(email: String) : this(null, UserId.newId().id, email)
+    constructor(email: String) : this(
+        userId = UserId.newId().id,
+        email = email
+    )
 }

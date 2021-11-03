@@ -1,7 +1,14 @@
 spring:
   application:
     name: rouin
+
 server.port: 10180
+
+logging:
+  level:
+    root: ERROR
+    al.rouin: WARN
+
 
 rouin:
   plaid:
