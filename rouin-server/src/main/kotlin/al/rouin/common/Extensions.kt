@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
 
-fun <T : Any> T.getLogger(): Logger = LoggerFactory.getLogger(this::class.java)
+fun <T : Any> T.logger(): Logger = LoggerFactory.getLogger(this::class.java)
 
 
 private val OBJECT_MAPPER = ObjectMapper()
