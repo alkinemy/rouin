@@ -1,5 +1,5 @@
 package al.rouin.common
 
 object Constants {
-    val EMPTY_STRING = ""
+    const val EMPTY_STRING = ""
 }
