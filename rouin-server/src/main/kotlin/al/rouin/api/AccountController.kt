@@ -8,20 +8,21 @@ import al.rouin.common.UserId
 import al.rouin.ledger.LedgerService
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.format.annotation.DateTimeFormat.ISO.DATE
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
 class AccountController(
     private val accountService: LedgerService,
 ) {
-
     @GetMapping("/api/v1/{userId}/accounts")
-    fun getAccounts(@PathVariable userId: String): List<AccountDto> =
-        accountService.getAccounts(
+    fun getAccounts(@PathVariable userId: String): List<AccountDto> = accountService.getAccounts(
+        userId = UserId.id(userId)
+    ).map { AccountDto.from(it) }
+
+    @PostMapping("/api/v1/{userId}/accounts/sync")
+    fun syncAccounts(@PathVariable userId: String): List<AccountDto> =
+        accountService.syncAccounts(
             userId = UserId.id(userId)
         ).map { AccountDto.from(it) }
 
@@ -51,10 +52,10 @@ data class AccountDto(
         fun from(model: Account) = AccountDto(
             accountId = model.accountId,
             name = model.name,
-            alias = model.alias,
+            alias = model.aliasName,
             officialName = model.officialName,
-            type = model.type,
-            subType = model.subType,
+            type = model.accountType,
+            subType = model.accountSubType,
         )
     }
 }

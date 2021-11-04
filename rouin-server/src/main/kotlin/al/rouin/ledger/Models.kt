@@ -9,10 +9,10 @@ import al.rouin.currency.CurrencyCode
 data class Account(
     val accountId: AccountId,
     val name: String,
-    val alias: String,
+    val aliasName: String,
     val officialName: String?,
-    val type: AccountType,
-    val subType: AccountSubType?,
+    val accountType: AccountType,
+    val accountSubType: AccountSubType?,
 )
 
 
