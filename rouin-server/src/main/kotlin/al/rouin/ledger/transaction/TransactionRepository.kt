@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TransactionRepository : RouinRepository<TransactionEntity, Long> {
-    fun findByUserId(userId: String): List<TransactionEntity>
+    fun findByUserIdAndDeletedFalse(userId: String): List<TransactionEntity>
 }

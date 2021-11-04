@@ -11,11 +11,11 @@ class AccountService(
     private val accountRepository: AccountRepository,
     private val accountClient: AccountClient,
 ) {
-    fun get(userId: UserId): List<Account> = accountRepository.findByUserId(userId.id)
+    fun get(userId: UserId): List<Account> = accountRepository.findByUserIdAndDeletedFalse(userId.id)
         .map { it.toModel() }
 
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Account> =
-        accountRepository.findByUserId(userId.id)
+        accountRepository.findByUserIdAndDeletedFalse(userId.id)
             .associateBy({
                 ReferenceId.id(it.referenceId)
             }, {

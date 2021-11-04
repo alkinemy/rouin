@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AccountRepository : RouinRepository<AccountEntity, Long> {
-    fun findByUserId(userId: String): List<AccountEntity>
+    fun findByUserIdAndDeletedFalse(userId: String): List<AccountEntity>
 }

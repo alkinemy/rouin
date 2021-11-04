@@ -12,11 +12,11 @@ class TransactionService(
     private val transactionRepository: TransactionRepository,
 ) {
 
-    fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserId(userId.id)
+    fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserIdAndDeletedFalse(userId.id)
         .map { it.toModel() }
 
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Transaction> =
-        transactionRepository.findByUserId(userId.id)
+        transactionRepository.findByUserIdAndDeletedFalse(userId.id)
             .associateBy(
                 { ReferenceId.id(it.referenceId) },
                 { it.toModel() }
