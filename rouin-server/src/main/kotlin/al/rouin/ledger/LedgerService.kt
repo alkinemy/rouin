@@ -20,17 +20,15 @@ class LedgerService(
 
     fun syncAccounts(userId: UserId): List<Account> {
         val user = userService.getUser(userId = userId)
-        val referenceIdToAccount = accountService.getAccountByReferenceId(userId = userId)
-        val fetchedAccount = accountService.fetchAccounts(user = user)
-        val notRegisteredAccounts = fetchedAccount.filterNot {
-            referenceIdToAccount.containsKey(it.id)
-        }.filterNot {
-            it.accountType == AccountType.UNSUPPORTED
-        }.filterNot {
-            it.accountSubType == AccountSubType.UNSUPPORTED
-        }.toList()
-        val savedAccounts = accountService.saveAccounts(userId, notRegisteredAccounts)
-        return referenceIdToAccount.values + savedAccounts
+        val referenceIdToAccount = accountService.getByReferenceId(userId = userId)
+        val fetchedAccount = accountService.fetch(user = user)
+        val notRegisteredAccounts = fetchedAccount
+            .filterNot { referenceIdToAccount.containsKey(it.id) }
+            .filterNot { it.accountType == AccountType.UNSUPPORTED }
+            .filterNot { it.accountSubType == AccountSubType.UNSUPPORTED }
+            .toList()
+        val registeredAccounts = accountService.register(userId, notRegisteredAccounts)
+        return referenceIdToAccount.values + registeredAccounts
     }
 
     fun getTransactions(userId: UserId, from: LocalDate, to: LocalDate): List<Transaction> {
