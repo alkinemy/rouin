@@ -12,7 +12,7 @@ class TransactionService(
     private val transactionRepository: TransactionRepository,
 ) {
 
-    fun getTransactions(userId: UserId): List<Transaction> = transactionRepository.findByUserId(userId.id)
+    fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserId(userId.id)
         .map { it.toModel() }
 
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Transaction> =

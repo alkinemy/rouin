@@ -11,7 +11,7 @@ class AccountService(
     private val accountRepository: AccountRepository,
     private val accountClient: AccountClient,
 ) {
-    fun getAccounts(userId: UserId): List<Account> = accountRepository.findByUserId(userId.id)
+    fun get(userId: UserId): List<Account> = accountRepository.findByUserId(userId.id)
         .map { it.toModel() }
 
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Account> =

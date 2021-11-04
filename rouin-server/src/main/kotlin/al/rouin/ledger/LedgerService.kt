@@ -20,7 +20,7 @@ class LedgerService(
         private val DEFAULT_FETCH_FROM_DATE = LocalDate.of(2021, 1, 1)
     }
 
-    fun getAccounts(userId: UserId): List<Account> = accountService.getAccounts(userId)
+    fun getAccounts(userId: UserId): List<Account> = accountService.get(userId)
 
     fun syncAccounts(userId: UserId) {
         val user = userService.getUser(userId)
@@ -34,7 +34,7 @@ class LedgerService(
         accountService.register(userId, notRegisteredAccounts)
     }
 
-    fun getTransactions(userId: UserId): List<Transaction> = transactionService.getTransactions(userId)
+    fun getTransactions(userId: UserId): List<Transaction> = transactionService.get(userId)
 
     fun syncTransactions(userId: UserId) {
         val user = userService.getUser(userId)
