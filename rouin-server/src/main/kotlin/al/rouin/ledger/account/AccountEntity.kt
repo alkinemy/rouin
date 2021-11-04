@@ -38,7 +38,7 @@ class AccountEntity(
             plaidAccountId = account.id.id,
             userId = userId.id,
             name = account.name,
-            aliasName = account.aliasName,
+            aliasName = account.name,
             officialName = account.officialName,
             accountType = account.accountType,
             accountSubType = account.accountSubType,

@@ -1,6 +1,5 @@
 package al.rouin.ledger.account
 
-import al.rouin.common.Constants.EMPTY_STRING
 import al.rouin.common.ReferenceId
 import al.rouin.config.plaid.executeBody
 import al.rouin.user.User
@@ -20,7 +19,6 @@ class AccountClient(
                 AccountReference(
                     id = ReferenceId.id(account.accountId),
                     name = account.name,
-                    aliasName = EMPTY_STRING,
                     officialName = account.officialName,
                     accountType = AccountType.find(account.type) ?: AccountType.UNSUPPORTED,
                     accountSubType = account.subtype?.let { subType ->
@@ -35,7 +33,6 @@ class AccountClient(
 data class AccountReference(
     val id: ReferenceId,
     val name: String,
-    val aliasName: String,
     val officialName: String?,
     val accountType: AccountType,
     val accountSubType: AccountSubType?,
