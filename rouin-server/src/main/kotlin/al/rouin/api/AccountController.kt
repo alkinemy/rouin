@@ -1,42 +1,30 @@
 package al.rouin.api
 
-import al.rouin.ledger.Account
-import al.rouin.ledger.Transaction
-import al.rouin.ledger.account.*
 import al.rouin.common.AccountId
 import al.rouin.common.UserId
+import al.rouin.ledger.Account
 import al.rouin.ledger.LedgerService
-import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.format.annotation.DateTimeFormat.ISO.DATE
-import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
+import al.rouin.ledger.account.AccountSubType
+import al.rouin.ledger.account.AccountType
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class AccountController(
-    private val accountService: LedgerService,
+    private val ledgerService: LedgerService,
 ) {
     @GetMapping("/api/v1/{userId}/accounts")
-    fun getAccounts(@PathVariable userId: String): List<AccountDto> = accountService.getAccounts(
-        userId = UserId.id(userId)
-    ).map { AccountDto.from(it) }
+    fun getAccounts(@PathVariable userId: String): List<AccountDto> =
+        ledgerService.getAccounts(userId.id())
+            .map { AccountDto.from(it) }
 
     @PostMapping("/api/v1/{userId}/accounts/sync")
-    fun syncAccounts(@PathVariable userId: String): List<AccountDto> =
-        accountService.syncAccounts(
-            userId = UserId.id(userId)
-        ).map { AccountDto.from(it) }
+    fun syncAccounts(@PathVariable userId: String) =
+        ledgerService.syncAccounts(userId.id())
 
-    @GetMapping("/api/v1/{userId}/accounts/transactions")
-    fun getTransactions(
-        @PathVariable userId: String,
-        @RequestParam("from") @DateTimeFormat(iso = DATE) from: LocalDate,
-        @RequestParam("to") @DateTimeFormat(iso = DATE) to: LocalDate,
-    ): List<TransactionDto> =
-        accountService.getTransactions(
-            userId = UserId.id(userId),
-            from = from,
-            to = to,
-        ).map { TransactionDto.from(it) }
+    private fun String.id() = UserId.id(this)
 }
 
 
@@ -56,19 +44,6 @@ data class AccountDto(
             officialName = model.officialName,
             type = model.accountType,
             subType = model.accountSubType,
-        )
-    }
-}
-
-
-data class TransactionDto(
-    val transactionId: String, //TODO implementation
-    val transactionName: String,
-) {
-    companion object {
-        fun from(model: Transaction) = TransactionDto(
-            transactionId = model.transactionId,
-            transactionName = model.transactionName,
         )
     }
 }

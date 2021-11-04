@@ -17,7 +17,7 @@ class AccountClient(
             val response = plaidApi.authGet(request).executeBody()
             response.accounts.map { account ->
                 AccountReference(
-                    id = ReferenceId.id(account.accountId),
+                    referenceId = ReferenceId.id(account.accountId),
                     name = account.name,
                     officialName = account.officialName,
                     accountType = AccountType.find(account.type) ?: AccountType.UNSUPPORTED,
@@ -31,7 +31,7 @@ class AccountClient(
 
 
 data class AccountReference(
-    val id: ReferenceId,
+    val referenceId: ReferenceId,
     val name: String,
     val officialName: String?,
     val accountType: AccountType,

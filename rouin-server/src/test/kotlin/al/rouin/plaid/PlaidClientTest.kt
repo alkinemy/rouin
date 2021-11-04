@@ -28,7 +28,7 @@ class PlaidClientTest(
 
     @Test
     fun fetchTransactions() {
-        val transactions = transactionClient.fetchTransactions(
+        val transactions = transactionClient.fetch(
             TransactionForm(
                 user = testUser,
                 from = LocalDate.now().minusDays(30),

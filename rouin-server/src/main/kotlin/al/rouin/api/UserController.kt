@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*
 class UserController(
     private val userService: UserService,
 ) {
-
     @PostMapping("/api/v1/users/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     fun signUp(@RequestBody signUpDto: SignUpDto) {
@@ -29,7 +28,6 @@ class UserController(
             token = PublicToken(token = tokenDto.token)
         )
     }
-
 }
 
 

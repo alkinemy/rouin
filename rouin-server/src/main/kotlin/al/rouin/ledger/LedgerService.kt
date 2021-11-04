@@ -4,8 +4,8 @@ import al.rouin.common.UserId
 import al.rouin.ledger.account.AccountService
 import al.rouin.ledger.account.AccountSubType
 import al.rouin.ledger.account.AccountType
-import al.rouin.ledger.transaction.TransactionClient
 import al.rouin.ledger.transaction.TransactionForm
+import al.rouin.ledger.transaction.TransactionService
 import al.rouin.user.UserService
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -14,32 +14,49 @@ import java.time.LocalDate
 class LedgerService(
     private val userService: UserService,
     private val accountService: AccountService,
-    private val transactionClient: TransactionClient,
+    private val transactionService: TransactionService,
 ) {
-    fun getAccounts(userId: UserId): List<Account> = accountService.getAccounts(userId = userId)
+    companion object {
+        private val DEFAULT_FETCH_FROM_DATE = LocalDate.of(2021, 1, 1)
+    }
 
-    fun syncAccounts(userId: UserId): List<Account> {
-        val user = userService.getUser(userId = userId)
-        val referenceIdToAccount = accountService.getByReferenceId(userId = userId)
-        val fetchedAccount = accountService.fetch(user = user)
+    fun getAccounts(userId: UserId): List<Account> = accountService.getAccounts(userId)
+
+    fun syncAccounts(userId: UserId) {
+        val user = userService.getUser(userId)
+        val referenceIdToAccount = accountService.getByReferenceId(userId)
+        val fetchedAccount = accountService.fetch(user)
         val notRegisteredAccounts = fetchedAccount
-            .filterNot { referenceIdToAccount.containsKey(it.id) }
+            .filterNot { referenceIdToAccount.containsKey(it.referenceId) }
             .filterNot { it.accountType == AccountType.UNSUPPORTED }
             .filterNot { it.accountSubType == AccountSubType.UNSUPPORTED }
             .toList()
-        val registeredAccounts = accountService.register(userId, notRegisteredAccounts)
-        return referenceIdToAccount.values + registeredAccounts
+        accountService.register(userId, notRegisteredAccounts)
     }
 
-    fun getTransactions(userId: UserId, from: LocalDate, to: LocalDate): List<Transaction> {
-        val user = userService.getUser(userId = userId)
-        return transactionClient.fetchTransactions(
+    fun getTransactions(userId: UserId): List<Transaction> = transactionService.getTransactions(userId)
+
+    fun syncTransactions(userId: UserId) {
+        val user = userService.getUser(userId)
+        val referenceIdToTransaction = transactionService.getByReferenceId(userId)
+        val fetchFrom = referenceIdToTransaction.values
+            .takeIf { it.isNotEmpty() }
+            ?.last()?.date
+            ?: DEFAULT_FETCH_FROM_DATE
+        val fetchTo = LocalDate.now()
+        val fetchedTransactions = transactionService.fetch(
             TransactionForm(
                 user = user,
-                from = from,
-                to = to,
+                from = fetchFrom,
+                to = fetchTo
             )
         )
+        val referenceIdToAccount = accountService.getByReferenceId(userId)
+        val notRegisteredTransactions = fetchedTransactions
+            .filterNot { referenceIdToTransaction.containsKey(it.transactionReferenceId) }
+            .filter { referenceIdToAccount.containsKey(it.accountReferenceId) }
+            .associateBy { referenceIdToAccount[it.accountReferenceId]!!.accountId }
+        transactionService.register(userId = userId, accountIdToTransaction = notRegisteredTransactions)
     }
 }
 

@@ -15,8 +15,8 @@ class AccountEntity(
     val id: Long? = null,
     @Column(name = "account_id", unique = true)
     val accountId: String,
-    @Column(name = "plaid_account_id", unique = true)
-    val plaidAccountId: String,
+    @Column(name = "reference_id", unique = true)
+    val referenceId: String,
     @Column(name = "user_id")
     val userId: String,
     @Column(name = "name")
@@ -30,18 +30,21 @@ class AccountEntity(
     val accountType: AccountType,
     @Column(name = "account_sub_type")
     @Enumerated(STRING)
-    val accountSubType: AccountSubType?
+    val accountSubType: AccountSubType?,
+    @Column(name = "deleted")
+    val deleted: Boolean,
 ) {
     companion object {
         fun from(userId: UserId, account: AccountReference): AccountEntity = AccountEntity(
             accountId = AccountId.newId().id,
-            plaidAccountId = account.id.id,
+            referenceId = account.referenceId.id,
             userId = userId.id,
             name = account.name,
             aliasName = account.name,
             officialName = account.officialName,
             accountType = account.accountType,
             accountSubType = account.accountSubType,
+            deleted = false,
         )
     }
 

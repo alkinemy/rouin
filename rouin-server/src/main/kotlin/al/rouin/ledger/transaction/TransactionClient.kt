@@ -1,10 +1,8 @@
 package al.rouin.ledger.transaction
 
-import al.rouin.common.AccountId
-import al.rouin.common.Constants.EMPTY_STRING
+import al.rouin.common.ReferenceId
 import al.rouin.config.plaid.executeBody
 import al.rouin.currency.CurrencyCode
-import al.rouin.ledger.Transaction
 import al.rouin.token.accesstoken.AccessToken
 import com.plaid.client.model.TransactionsGetRequest
 import com.plaid.client.model.TransactionsGetRequestOptions
@@ -16,17 +14,17 @@ import java.time.LocalDate
 class TransactionClient(
     private val plaidApi: PlaidApi,
 ) {
-    fun fetchTransactions(transactionForm: TransactionForm): List<Transaction> =
+    fun fetch(transactionForm: TransactionForm): List<TransactionReference> =
         transactionForm.user.accessTokens
             .flatMap {
-                fetchTransactions(
+                fetch(
                     accessToken = it,
                     from = transactionForm.from,
                     to = transactionForm.to,
                 )
             }.toList()
 
-    private fun fetchTransactions(accessToken: AccessToken, from: LocalDate, to: LocalDate): List<Transaction> {
+    private fun fetch(accessToken: AccessToken, from: LocalDate, to: LocalDate): List<TransactionReference> {
         val request = TransactionsGetRequest()
             .accessToken(accessToken.token)
             .startDate(from)
@@ -34,14 +32,24 @@ class TransactionClient(
             .options(TransactionsGetRequestOptions().count(100)) //TODO paging
         val response = plaidApi.transactionsGet(request).executeBody()
         return response.transactions.map {
-            Transaction(
-                transactionId = it.transactionId,
-                transactionName = it.name,
-                accountId = AccountId.id(it.accountId),
+            TransactionReference(
+                transactionReferenceId = ReferenceId.id(it.transactionId),
+                accountReferenceId = ReferenceId.id(it.accountId),
+                name = it.name,
                 amount = it.amount,
-                currencyCode = CurrencyCode.valueOf(it.isoCurrencyCode ?: it.unofficialCurrencyCode!!),
-                description = EMPTY_STRING
+                date = it.date,
+                currency = CurrencyCode.valueOf(it.isoCurrencyCode ?: it.unofficialCurrencyCode!!),
             )
         }
     }
 }
+
+
+data class TransactionReference(
+    val transactionReferenceId: ReferenceId,
+    val accountReferenceId: ReferenceId,
+    val name: String,
+    val amount: Double,
+    val date: LocalDate,
+    val currency: CurrencyCode,
+)

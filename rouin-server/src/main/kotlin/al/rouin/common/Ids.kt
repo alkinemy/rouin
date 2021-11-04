@@ -30,10 +30,23 @@ data class AccountId @JsonCreator(mode = DELEGATING) constructor(
     override fun toString() = id
 }
 
+data class TransactionId @JsonCreator(mode = DELEGATING) constructor(
+    val id: String
+) {
+    companion object {
+        fun id(id: String) = TransactionId(id = id)
+        fun newId() = TransactionId(id = UUID.randomUUID().toString())
+    }
+
+    @JsonValue
+    override fun toString() = id
+}
+
 
 data class ReferenceId @JsonCreator(mode = DELEGATING) constructor(
     val id: String
 ) {
+
     companion object {
         fun id(id: String) = ReferenceId(id = id)
     }

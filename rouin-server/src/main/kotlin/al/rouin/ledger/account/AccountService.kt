@@ -17,7 +17,7 @@ class AccountService(
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Account> =
         accountRepository.findByUserId(userId.id)
             .associateBy({
-                ReferenceId.id(it.plaidAccountId)
+                ReferenceId.id(it.referenceId)
             }, {
                 it.toModel()
             })
