@@ -1,9 +1,8 @@
 package al.rouin.ledger.account
 
-import al.rouin.common.ReferenceId
-import al.rouin.common.UserId
-import al.rouin.ledger.Account
+import al.rouin.external.ReferenceId
 import al.rouin.user.User
+import al.rouin.user.UserId
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,11 +15,10 @@ class AccountService(
 
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Account> =
         accountRepository.findByUserIdAndDeletedFalse(userId.id)
-            .associateBy({
-                ReferenceId.id(it.referenceId)
-            }, {
-                it.toModel()
-            })
+            .associateBy(
+                { ReferenceId(it.referenceId) },
+                { it.toModel() }
+            )
 
     fun fetch(user: User): List<AccountReference> = accountClient.fetchAccounts(user)
 

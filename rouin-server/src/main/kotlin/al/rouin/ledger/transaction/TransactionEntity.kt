@@ -1,11 +1,10 @@
 package al.rouin.ledger.transaction
 
-import al.rouin.common.AccountId
 import al.rouin.common.Constants.EMPTY_STRING
-import al.rouin.common.TransactionId
-import al.rouin.common.UserId
 import al.rouin.currency.CurrencyCode
-import al.rouin.ledger.Transaction
+import al.rouin.external.ReferenceId
+import al.rouin.ledger.account.AccountId
+import al.rouin.user.UserId
 import java.time.LocalDate
 import javax.persistence.*
 import javax.persistence.EnumType.STRING
@@ -56,9 +55,10 @@ class TransactionEntity(
 
     @Transient
     fun toModel() = Transaction(
-        transactionId = TransactionId.id(transactionId),
-        userId = UserId.id(userId),
-        accountId = AccountId.id(accountId),
+        transactionId = TransactionId(transactionId),
+        referenceId = ReferenceId(referenceId),
+        userId = UserId(userId),
+        accountId = AccountId(accountId),
         name = name,
         amount = amount,
         date = date,

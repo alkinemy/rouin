@@ -1,10 +1,10 @@
 package al.rouin.config.test
 
-import al.rouin.common.UserId
 import al.rouin.common.logger
 import al.rouin.token.TokenService
 import al.rouin.token.accesstoken.AccessToken
 import al.rouin.user.User
+import al.rouin.user.UserId
 import al.rouin.user.repository.UserEntity
 import al.rouin.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Qualifier
@@ -27,7 +27,7 @@ class TestConfig(
     @Bean
     fun testUser(): User {
         return User(
-            userId = UserId.id(userId),
+            userId = UserId(userId),
             email = email,
             accessTokens = listOf(AccessToken(token = accessToken, itemId = itemId))
         )

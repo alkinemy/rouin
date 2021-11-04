@@ -1,9 +1,8 @@
 package al.rouin.ledger.transaction
 
-import al.rouin.common.AccountId
-import al.rouin.common.ReferenceId
-import al.rouin.common.UserId
-import al.rouin.ledger.Transaction
+import al.rouin.external.ReferenceId
+import al.rouin.ledger.account.AccountId
+import al.rouin.user.UserId
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,7 +17,7 @@ class TransactionService(
     fun getByReferenceId(userId: UserId): Map<ReferenceId, Transaction> =
         transactionRepository.findByUserIdAndDeletedFalse(userId.id)
             .associateBy(
-                { ReferenceId.id(it.referenceId) },
+                { ReferenceId(it.referenceId) },
                 { it.toModel() }
             )
 

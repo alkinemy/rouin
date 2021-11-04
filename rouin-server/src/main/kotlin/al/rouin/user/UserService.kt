@@ -1,6 +1,5 @@
 package al.rouin.user
 
-import al.rouin.common.UserId
 import al.rouin.token.PublicToken
 import al.rouin.token.TokenService
 import al.rouin.token.accesstoken.UserNotFoundException
@@ -33,7 +32,7 @@ class UserService(
         val entity = userRepository.findByUserId(userId = userId.id) ?: throw UserNotFoundException("User doesn't exist")
         val accessTokens = tokenService.getAccessTokens(userId = userId)
         return User(
-            userId = UserId.id(entity.userId),
+            userId = UserId(entity.userId),
             email = entity.email,
             accessTokens = accessTokens
         )

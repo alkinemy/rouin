@@ -1,7 +1,7 @@
 package al.rouin.ledger.account
 
-import al.rouin.common.ReferenceId
-import al.rouin.config.plaid.executeBody
+import al.rouin.external.ReferenceId
+import al.rouin.external.executeBody
 import al.rouin.user.User
 import com.plaid.client.model.AuthGetRequest
 import com.plaid.client.request.PlaidApi
@@ -17,7 +17,7 @@ class AccountClient(
             val response = plaidApi.authGet(request).executeBody()
             response.accounts.map { account ->
                 AccountReference(
-                    referenceId = ReferenceId.id(account.accountId),
+                    referenceId = ReferenceId(account.accountId),
                     name = account.name,
                     officialName = account.officialName,
                     accountType = AccountType.find(account.type) ?: AccountType.UNSUPPORTED,

@@ -1,4 +1,4 @@
-package al.rouin.config.plaid
+package al.rouin.external
 
 import retrofit2.Call
 

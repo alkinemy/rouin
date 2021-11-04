@@ -1,8 +1,8 @@
 package al.rouin.token
 
-import al.rouin.common.UserId
 import al.rouin.token.accesstoken.AccessToken
 import al.rouin.token.accesstoken.AccessTokenService
+import al.rouin.user.UserId
 import org.springframework.stereotype.Service
 
 @Service

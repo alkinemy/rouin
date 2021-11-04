@@ -1,7 +1,7 @@
 package al.rouin.api
 
-import al.rouin.common.UserId
 import al.rouin.token.PublicToken
+import al.rouin.user.UserId
 import al.rouin.user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -24,8 +24,8 @@ class UserController(
     @PostMapping("/api/v1/{userId}/tokens")
     fun registerToken(@PathVariable userId: String, @RequestBody tokenDto: PublicTokenDto) {
         userService.registerToken(
-            userId = UserId.id(userId),
-            token = PublicToken(token = tokenDto.token)
+            userId = UserId(userId),
+            token = PublicToken(tokenDto.token)
         )
     }
 }

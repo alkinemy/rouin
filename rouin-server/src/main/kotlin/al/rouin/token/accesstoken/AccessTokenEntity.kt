@@ -1,6 +1,6 @@
 package al.rouin.token.accesstoken
 
-import al.rouin.common.UserId
+import al.rouin.user.UserId
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
 

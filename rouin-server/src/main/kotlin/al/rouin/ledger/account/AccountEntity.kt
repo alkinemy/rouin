@@ -1,8 +1,7 @@
 package al.rouin.ledger.account
 
-import al.rouin.common.AccountId
-import al.rouin.common.UserId
-import al.rouin.ledger.Account
+import al.rouin.external.ReferenceId
+import al.rouin.user.UserId
 import javax.persistence.*
 import javax.persistence.EnumType.STRING
 import javax.persistence.GenerationType.IDENTITY
@@ -50,7 +49,8 @@ class AccountEntity(
 
     @Transient
     fun toModel() = Account(
-        accountId = AccountId.id(accountId),
+        accountId = AccountId(accountId),
+        referenceId = ReferenceId(referenceId),
         name = name,
         aliasName = aliasName,
         officialName = officialName,

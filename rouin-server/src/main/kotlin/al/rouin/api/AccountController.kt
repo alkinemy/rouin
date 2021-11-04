@@ -1,11 +1,11 @@
 package al.rouin.api
 
-import al.rouin.common.AccountId
-import al.rouin.common.UserId
-import al.rouin.ledger.Account
 import al.rouin.ledger.LedgerService
+import al.rouin.ledger.account.Account
+import al.rouin.ledger.account.AccountId
 import al.rouin.ledger.account.AccountSubType
 import al.rouin.ledger.account.AccountType
+import al.rouin.user.UserId
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -24,7 +24,7 @@ class AccountController(
     fun syncAccounts(@PathVariable userId: String) =
         ledgerService.syncAccounts(userId.id())
 
-    private fun String.id() = UserId.id(this)
+    private fun String.id() = UserId(this)
 }
 
 

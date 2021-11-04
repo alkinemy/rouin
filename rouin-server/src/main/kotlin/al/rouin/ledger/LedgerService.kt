@@ -1,11 +1,13 @@
 package al.rouin.ledger
 
-import al.rouin.common.UserId
+import al.rouin.ledger.account.Account
 import al.rouin.ledger.account.AccountService
 import al.rouin.ledger.account.AccountSubType
 import al.rouin.ledger.account.AccountType
+import al.rouin.ledger.transaction.Transaction
 import al.rouin.ledger.transaction.TransactionForm
 import al.rouin.ledger.transaction.TransactionService
+import al.rouin.user.UserId
 import al.rouin.user.UserService
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -44,14 +46,15 @@ class LedgerService(
             ?.last()?.date
             ?: DEFAULT_FETCH_FROM_DATE
         val fetchTo = LocalDate.now()
+        val referenceIdToAccount = accountService.getByReferenceId(userId)
         val fetchedTransactions = transactionService.fetch(
             TransactionForm(
                 user = user,
                 from = fetchFrom,
-                to = fetchTo
+                to = fetchTo,
+                accountReferenceIds = referenceIdToAccount.values.map { it.referenceId }
             )
         )
-        val referenceIdToAccount = accountService.getByReferenceId(userId)
         val notRegisteredTransactions = fetchedTransactions
             .filterNot { referenceIdToTransaction.containsKey(it.transactionReferenceId) }
             .filter { referenceIdToAccount.containsKey(it.accountReferenceId) }

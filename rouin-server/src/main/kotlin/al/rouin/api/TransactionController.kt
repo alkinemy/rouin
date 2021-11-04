@@ -1,11 +1,11 @@
 package al.rouin.api
 
-import al.rouin.common.AccountId
-import al.rouin.common.TransactionId
-import al.rouin.common.UserId
 import al.rouin.currency.CurrencyCode
 import al.rouin.ledger.LedgerService
-import al.rouin.ledger.Transaction
+import al.rouin.ledger.account.AccountId
+import al.rouin.ledger.transaction.Transaction
+import al.rouin.ledger.transaction.TransactionId
+import al.rouin.user.UserId
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,7 +25,7 @@ class TransactionController(
     fun syncTransactions(@PathVariable userId: String) =
         ledgerService.syncTransactions(userId.id())
 
-    private fun String.id() = UserId.id(this)
+    private fun String.id() = UserId(this)
 }
 
 
