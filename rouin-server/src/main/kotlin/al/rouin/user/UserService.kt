@@ -1,9 +1,9 @@
 package al.rouin.user
 
 import al.rouin.common.UserId
+import al.rouin.token.PublicToken
 import al.rouin.token.TokenService
 import al.rouin.token.accesstoken.UserNotFoundException
-import al.rouin.token.temporarytoken.PublicToken
 import al.rouin.user.repository.UserEntity
 import al.rouin.user.repository.UserRepository
 import org.springframework.stereotype.Service

@@ -1,7 +1,7 @@
 package al.rouin.api
 
 import al.rouin.common.UserId
-import al.rouin.token.temporarytoken.PublicToken
+import al.rouin.token.PublicToken
 import al.rouin.user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*

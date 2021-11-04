@@ -1,4 +1,4 @@
-package al.rouin.account
+package al.rouin.account.transaction
 
 import al.rouin.user.User
 import java.time.LocalDate

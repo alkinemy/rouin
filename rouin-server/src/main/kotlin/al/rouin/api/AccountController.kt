@@ -1,10 +1,8 @@
 package al.rouin.api
 
-import al.rouin.account.AccountService
-import al.rouin.account.Transaction
+import al.rouin.account.*
 import al.rouin.common.AccountId
 import al.rouin.common.UserId
-import al.rouin.currency.CurrencyCode
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.format.annotation.DateTimeFormat.ISO.DATE
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,17 +15,44 @@ import java.time.LocalDate
 class AccountController(
     private val accountService: AccountService,
 ) {
+
+    @GetMapping("/api/v1/{userId}/accounts")
+    fun getAccounts(@PathVariable userId: String): List<AccountDto> =
+        accountService.getAccounts(
+            userId = UserId.id(userId)
+        ).map { AccountDto.from(it) }
+
     @GetMapping("/api/v1/{userId}/accounts/transactions")
     fun getTransactions(
         @PathVariable userId: String,
         @RequestParam("from") @DateTimeFormat(iso = DATE) from: LocalDate,
         @RequestParam("to") @DateTimeFormat(iso = DATE) to: LocalDate,
-    ): List<TransactionDto> {
-        return accountService.getTransactions(
+    ): List<TransactionDto> =
+        accountService.getTransactions(
             userId = UserId.id(userId),
             from = from,
             to = to,
         ).map { TransactionDto.from(it) }
+}
+
+
+data class AccountDto(
+    val accountId: AccountId,
+    val name: String,
+    val alias: String,
+    val officialName: String?,
+    val type: AccountType,
+    val subType: AccountSubType?,
+) {
+    companion object {
+        fun from(model: Account) = AccountDto(
+            accountId = model.accountId,
+            name = model.name,
+            alias = model.alias,
+            officialName = model.officialName,
+            type = model.type,
+            subType = model.subType,
+        )
     }
 }
 
@@ -37,9 +62,9 @@ data class TransactionDto(
     val transactionName: String,
 ) {
     companion object {
-        fun from(transaction: Transaction) = TransactionDto(
-            transactionId = transaction.transactionId,
-            transactionName = transaction.transactionName,
+        fun from(model: Transaction) = TransactionDto(
+            transactionId = model.transactionId,
+            transactionName = model.transactionName,
         )
     }
 }

@@ -8,5 +8,5 @@ class HelloController {
 
     @GetMapping("/hello")
     fun hello() = "Hello Rouin!"
-    
+
 }

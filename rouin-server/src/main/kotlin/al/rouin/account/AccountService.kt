@@ -1,8 +1,7 @@
 package al.rouin.account
 
-import al.rouin.common.AccountId
+import al.rouin.account.transaction.TransactionForm
 import al.rouin.common.UserId
-import al.rouin.currency.CurrencyCode
 import al.rouin.user.UserService
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -12,10 +11,14 @@ class AccountService(
     private val userService: UserService,
     private val accountClient: AccountClient,
 ) {
+    fun getAccounts(userId: UserId): List<Account> {
+        val user = userService.getUser(userId = userId)
+        return accountClient.fetchAccounts(user)
+    }
 
     fun getTransactions(userId: UserId, from: LocalDate, to: LocalDate): List<Transaction> {
         val user = userService.getUser(userId = userId)
-        return accountClient.getTransactions(
+        return accountClient.fetchTransactions(
             TransactionForm(
                 user = user,
                 from = from,
@@ -23,14 +26,5 @@ class AccountService(
             )
         )
     }
-
 }
 
-
-data class Transaction(
-    val transactionId: String,
-    val transactionName: String,
-    val accountId: AccountId,
-    val amount: Double,
-    val currencyCode: CurrencyCode,
-)
