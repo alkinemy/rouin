@@ -1,13 +1,11 @@
-package al.rouin.account
+package al.rouin.ledger.transaction
 
-import al.rouin.account.transaction.TransactionForm
 import al.rouin.common.AccountId
 import al.rouin.common.Constants.EMPTY_STRING
 import al.rouin.currency.CurrencyCode
+import al.rouin.ledger.Transaction
 import al.rouin.plaid.executeBody
 import al.rouin.token.accesstoken.AccessToken
-import al.rouin.user.User
-import com.plaid.client.model.AuthGetRequest
 import com.plaid.client.model.TransactionsGetRequest
 import com.plaid.client.model.TransactionsGetRequestOptions
 import com.plaid.client.request.PlaidApi
@@ -15,27 +13,9 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class AccountClient(
+class TransactionClient(
     private val plaidApi: PlaidApi,
 ) {
-    fun fetchAccounts(user: User): List<Account> =
-        user.accessTokens.flatMap {
-            val request = AuthGetRequest().accessToken(it.token)
-            val response = plaidApi.authGet(request).executeBody()
-            response.accounts.map { account ->
-                Account(
-                    accountId = AccountId.id(account.accountId),
-                    name = account.name,
-                    alias = EMPTY_STRING,
-                    officialName = account.officialName,
-                    type = AccountType.toAccountType(account.type),
-                    subType = account.subtype?.let { subType ->
-                        AccountSubType.toAccountSubType(subType)
-                    }
-                )
-            }
-        }.toList()
-
     fun fetchTransactions(transactionForm: TransactionForm): List<Transaction> =
         transactionForm.user.accessTokens
             .flatMap {

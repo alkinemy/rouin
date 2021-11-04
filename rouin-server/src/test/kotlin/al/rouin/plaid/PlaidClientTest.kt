@@ -1,9 +1,10 @@
 package al.rouin.plaid
 
 import al.rouin.IntegrationTest
-import al.rouin.account.AccountClient
-import al.rouin.account.transaction.TransactionForm
+import al.rouin.ledger.account.AccountClient
+import al.rouin.ledger.transaction.TransactionForm
 import al.rouin.common.logger
+import al.rouin.ledger.transaction.TransactionClient
 import al.rouin.user.User
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,14 +14,21 @@ import java.time.LocalDate
 @IntegrationTest
 class PlaidClientTest(
     @Autowired private val accountClient: AccountClient,
+    @Autowired private val transactionClient: TransactionClient,
     @Qualifier("testUser") @Autowired private val testUser: User,
 ) {
 
     private val log = logger()
 
     @Test
+    fun fetchAccounts() {
+        val accounts = accountClient.fetchAccounts(testUser)
+        log.debug("accounts: $accounts")
+    }
+
+    @Test
     fun fetchTransactions() {
-        val transactions = accountClient.fetchTransactions(
+        val transactions = transactionClient.fetchTransactions(
             TransactionForm(
                 user = testUser,
                 from = LocalDate.now().minusDays(30),
@@ -28,12 +36,6 @@ class PlaidClientTest(
             )
         )
         log.debug("transactions: $transactions")
-    }
-
-    @Test
-    fun fetchAccounts() {
-        val accounts = accountClient.fetchAccounts(testUser)
-        log.debug("accounts: $accounts")
     }
 
 }

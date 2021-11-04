@@ -1,8 +1,11 @@
 package al.rouin.api
 
-import al.rouin.account.*
+import al.rouin.ledger.Account
+import al.rouin.ledger.Transaction
+import al.rouin.ledger.account.*
 import al.rouin.common.AccountId
 import al.rouin.common.UserId
+import al.rouin.ledger.LedgerService
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.format.annotation.DateTimeFormat.ISO.DATE
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,7 +16,7 @@ import java.time.LocalDate
 
 @RestController
 class AccountController(
-    private val accountService: AccountService,
+    private val accountService: LedgerService,
 ) {
 
     @GetMapping("/api/v1/{userId}/accounts")

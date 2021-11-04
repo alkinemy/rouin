@@ -1,4 +1,4 @@
-package al.rouin.account
+package al.rouin.ledger.account
 
 import com.plaid.client.model.AccountSubtype
 

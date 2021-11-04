@@ -1,5 +1,7 @@
-package al.rouin.account
+package al.rouin.ledger
 
+import al.rouin.ledger.account.AccountSubType
+import al.rouin.ledger.account.AccountType
 import al.rouin.common.AccountId
 import al.rouin.currency.CurrencyCode
 
