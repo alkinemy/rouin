@@ -1,7 +1,7 @@
 package al.rouin.token.temporarytoken
 
 import al.rouin.config.plaid.PlaidProperties
-import al.rouin.plaid.executeBody
+import al.rouin.config.plaid.executeBody
 import al.rouin.token.LinkToken
 import al.rouin.token.PublicToken
 import al.rouin.token.accesstoken.AccessToken

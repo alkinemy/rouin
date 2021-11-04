@@ -2,7 +2,7 @@ package al.rouin.ledger.account
 
 import al.rouin.common.Constants.EMPTY_STRING
 import al.rouin.common.ReferenceId
-import al.rouin.plaid.executeBody
+import al.rouin.config.plaid.executeBody
 import al.rouin.user.User
 import com.plaid.client.model.AuthGetRequest
 import com.plaid.client.request.PlaidApi
@@ -22,9 +22,9 @@ class AccountClient(
                     name = account.name,
                     aliasName = EMPTY_STRING,
                     officialName = account.officialName,
-                    accountType = AccountType.toAccountType(account.type),
+                    accountType = AccountType.find(account.type) ?: AccountType.UNSUPPORTED,
                     accountSubType = account.subtype?.let { subType ->
-                        AccountSubType.toAccountSubType(subType)
+                        AccountSubType.find(subType) ?: AccountSubType.UNSUPPORTED
                     }
                 )
             }

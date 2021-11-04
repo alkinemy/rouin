@@ -2,9 +2,9 @@ package al.rouin.ledger.transaction
 
 import al.rouin.common.AccountId
 import al.rouin.common.Constants.EMPTY_STRING
+import al.rouin.config.plaid.executeBody
 import al.rouin.currency.CurrencyCode
 import al.rouin.ledger.Transaction
-import al.rouin.plaid.executeBody
 import al.rouin.token.accesstoken.AccessToken
 import com.plaid.client.model.TransactionsGetRequest
 import com.plaid.client.model.TransactionsGetRequestOptions

@@ -2,6 +2,8 @@ package al.rouin.ledger
 
 import al.rouin.common.UserId
 import al.rouin.ledger.account.AccountService
+import al.rouin.ledger.account.AccountSubType
+import al.rouin.ledger.account.AccountType
 import al.rouin.ledger.transaction.TransactionClient
 import al.rouin.ledger.transaction.TransactionForm
 import al.rouin.user.UserService
@@ -22,6 +24,10 @@ class LedgerService(
         val fetchedAccount = accountService.fetchAccounts(user = user)
         val notRegisteredAccounts = fetchedAccount.filterNot {
             referenceIdToAccount.containsKey(it.id)
+        }.filterNot {
+            it.accountType == AccountType.UNSUPPORTED
+        }.filterNot {
+            it.accountSubType == AccountSubType.UNSUPPORTED
         }.toList()
         val savedAccounts = accountService.saveAccounts(userId, notRegisteredAccounts)
         return referenceIdToAccount.values + savedAccounts

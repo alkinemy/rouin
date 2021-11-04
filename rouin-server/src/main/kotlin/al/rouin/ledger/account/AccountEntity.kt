@@ -4,6 +4,7 @@ import al.rouin.common.AccountId
 import al.rouin.common.UserId
 import al.rouin.ledger.Account
 import javax.persistence.*
+import javax.persistence.EnumType.STRING
 import javax.persistence.GenerationType.IDENTITY
 
 @Entity
@@ -25,9 +26,11 @@ class AccountEntity(
     @Column(name = "official_name")
     val officialName: String?,
     @Column(name = "account_type")
-    val accountType: String,
+    @Enumerated(STRING)
+    val accountType: AccountType,
     @Column(name = "account_sub_type")
-    val accountSubType: String?
+    @Enumerated(STRING)
+    val accountSubType: AccountSubType?
 ) {
     companion object {
         fun from(userId: UserId, account: AccountReference): AccountEntity = AccountEntity(
@@ -37,8 +40,8 @@ class AccountEntity(
             name = account.name,
             aliasName = account.aliasName,
             officialName = account.officialName,
-            accountType = account.accountType.name,
-            accountSubType = account.accountSubType?.name,
+            accountType = account.accountType,
+            accountSubType = account.accountSubType,
         )
     }
 
@@ -48,7 +51,7 @@ class AccountEntity(
         name = name,
         aliasName = aliasName,
         officialName = officialName,
-        accountType = AccountType.toAccountType(accountType),
-        accountSubType = accountSubType?.let { AccountSubType.toAccountSubType(it) }
+        accountType = accountType,
+        accountSubType = accountSubType,
     )
 }

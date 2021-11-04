@@ -20,3 +20,6 @@ private val OBJECT_MAPPER = ObjectMapper()
 
 fun <T : Any> T.toJson(): String = OBJECT_MAPPER.writeValueAsString(this) //TODO error handling
 fun <T : Any> String.toObject(kClass: KClass<T>): T = OBJECT_MAPPER.readValue(this, kClass.java) //TODO error handling
+
+fun <T : Any> T?.isNull(): Boolean = this == null
+fun <T : Any> T?.isNotNull(): Boolean = !this.isNull()
