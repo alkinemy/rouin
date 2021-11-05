@@ -1,5 +1,6 @@
 package al.rouin.user.repository
 
+import al.rouin.common.AuditEntity
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
 
@@ -13,4 +14,4 @@ class UserEntity(
     val userId: String,
     @Column(name = "email", unique = true)
     val email: String,
-)
+) : AuditEntity()

@@ -1,5 +1,6 @@
 package al.rouin.token.accesstoken
 
+import al.rouin.common.AuditEntity
 import al.rouin.user.UserId
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
@@ -16,7 +17,7 @@ class AccessTokenEntity(
     val accessToken: String,
     @Column(name = "item_id")
     val itemId: String,
-) {
+) : AuditEntity() {
     constructor(userId: UserId, accessToken: AccessToken) : this(
         userId = userId.id,
         accessToken = accessToken.token,

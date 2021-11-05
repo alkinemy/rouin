@@ -1,5 +1,6 @@
 package al.rouin.ledger.account.client
 
+import al.rouin.common.AuditEntity
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.*
 import al.rouin.user.UserId
@@ -33,7 +34,7 @@ class AccountEntity(
     val accountSubType: AccountSubType?,
     @Column(name = "deleted")
     val deleted: Boolean,
-) {
+) : AuditEntity() {
     companion object {
         fun from(userId: UserId, account: AccountReference): AccountEntity = with(account) {
             AccountEntity(

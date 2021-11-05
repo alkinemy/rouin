@@ -1,5 +1,6 @@
 package al.rouin.ledger.transaction.client
 
+import al.rouin.common.AuditEntity
 import al.rouin.common.Constants.EMPTY_STRING
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
@@ -40,7 +41,7 @@ class TransactionEntity(
     val description: String,
     @Column(name = "deleted")
     val deleted: Boolean
-) {
+) : AuditEntity() {
     companion object {
         fun from(userId: UserId, accountId: AccountId, transaction: TransactionReference) = with(transaction) {
             TransactionEntity(

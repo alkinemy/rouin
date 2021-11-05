@@ -1,11 +1,9 @@
 package al.rouin
 
-import al.rouin.config.RouinConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.Import
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
-@Import(RouinConfig::class)
 @SpringBootApplication
 class RouinApplication
 
