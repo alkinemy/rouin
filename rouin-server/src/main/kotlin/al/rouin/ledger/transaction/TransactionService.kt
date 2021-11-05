@@ -17,12 +17,20 @@ class TransactionService(
     fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserIdAndDeletedFalse(userId.id)
         .map { it.toModel() }
 
-    fun getByReferenceId(userId: UserId): Map<ReferenceId, Transaction> =
-        transactionRepository.findByUserIdAndDeletedFalse(userId.id)
-            .associateBy(
-                { ReferenceId(it.referenceId) },
-                { it.toModel() }
-            )
+    fun getLastTransaction(userId: UserId): Transaction? =
+        transactionRepository.findByUserIdAndDeletedFalseOrderByIdDesc(userId.id)
+            ?.toModel()
+
+    fun getByReferenceId(form: TransactionQueryForm): Map<ReferenceId, Transaction> = with(form) {
+        transactionRepository.findByUserIdAndDateGreaterThanEqualAndDateLessThanEqualAndDeletedFalse(
+            userId = userId.id,
+            from = from,
+            to = to,
+        ).associateBy(
+            { ReferenceId(it.referenceId) },
+            { it.toModel() }
+        )
+    }
 
     fun fetch(form: TransactionFetchForm): List<TransactionReference> = transactionClient.fetch(form)
 

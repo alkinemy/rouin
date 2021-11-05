@@ -6,6 +6,7 @@ import al.rouin.ledger.account.AccountSubType
 import al.rouin.ledger.account.AccountType
 import al.rouin.ledger.transaction.Transaction
 import al.rouin.ledger.transaction.TransactionFetchForm
+import al.rouin.ledger.transaction.TransactionQueryForm
 import al.rouin.ledger.transaction.TransactionService
 import al.rouin.user.UserId
 import al.rouin.user.UserService
@@ -40,11 +41,8 @@ class LedgerService(
 
     fun syncTransactions(userId: UserId) {
         val user = userService.getUser(userId)
-        val referenceIdToTransaction = transactionService.getByReferenceId(userId)
-        val fetchFrom = referenceIdToTransaction.values
-            .takeIf { it.isNotEmpty() }
-            ?.last()?.date
-            ?: DEFAULT_FETCH_FROM_DATE
+        val lastTransaction = transactionService.getLastTransaction(userId)
+        val fetchFrom = lastTransaction?.date ?: DEFAULT_FETCH_FROM_DATE
         val fetchTo = LocalDate.now()
         val referenceIdToAccount = accountService.getByReferenceId(userId)
         val fetchedTransactions = transactionService.fetch(
@@ -53,6 +51,13 @@ class LedgerService(
                 from = fetchFrom,
                 to = fetchTo,
                 accountReferenceIds = referenceIdToAccount.values.map { it.referenceId }
+            )
+        )
+        val referenceIdToTransaction = transactionService.getByReferenceId(
+            TransactionQueryForm(
+                userId = userId,
+                from = fetchFrom,
+                to = fetchTo,
             )
         )
         val notRegisteredTransactions = fetchedTransactions
