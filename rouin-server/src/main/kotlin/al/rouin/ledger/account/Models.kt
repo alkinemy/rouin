@@ -27,3 +27,11 @@ data class AccountId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructo
     @JsonValue
     override fun toString() = id
 }
+
+data class AccountReference(
+    val referenceId: ReferenceId,
+    val name: String,
+    val officialName: String?,
+    val accountType: AccountType,
+    val accountSubType: AccountSubType?,
+)

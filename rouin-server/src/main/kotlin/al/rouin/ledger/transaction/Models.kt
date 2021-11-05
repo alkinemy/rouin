@@ -1,8 +1,8 @@
 package al.rouin.ledger.transaction
 
-import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
+import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.user.UserId
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
@@ -34,3 +34,12 @@ data class TransactionId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constr
     @JsonValue
     override fun toString() = id
 }
+
+data class TransactionReference(
+    val transactionReferenceId: ReferenceId,
+    val accountReferenceId: ReferenceId,
+    val name: String,
+    val amount: Double,
+    val date: LocalDate,
+    val currency: CurrencyCode,
+)

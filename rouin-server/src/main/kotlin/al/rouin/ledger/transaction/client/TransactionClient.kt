@@ -1,9 +1,11 @@
-package al.rouin.ledger.transaction
+package al.rouin.ledger.transaction.client
 
 import al.rouin.common.logger
-import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.external.ReferenceId
 import al.rouin.external.executeBody
+import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.transaction.TransactionFetchForm
+import al.rouin.ledger.transaction.TransactionReference
 import al.rouin.token.accesstoken.AccessToken
 import al.rouin.user.UserId
 import com.plaid.client.model.Transaction
@@ -79,17 +81,7 @@ class TransactionClient(
 }
 
 
-data class TransactionReference(
-    val transactionReferenceId: ReferenceId,
-    val accountReferenceId: ReferenceId,
-    val name: String,
-    val amount: Double,
-    val date: LocalDate,
-    val currency: CurrencyCode,
-)
-
-
-data class TransactionAccessTokenFetchForm(
+private data class TransactionAccessTokenFetchForm(
     val userId: UserId,
     val accessToken: AccessToken,
     val from: LocalDate,

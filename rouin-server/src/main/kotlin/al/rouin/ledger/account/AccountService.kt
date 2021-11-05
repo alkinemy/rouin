@@ -1,6 +1,9 @@
 package al.rouin.ledger.account
 
 import al.rouin.external.ReferenceId
+import al.rouin.ledger.account.client.AccountClient
+import al.rouin.ledger.account.client.AccountEntity
+import al.rouin.ledger.account.client.AccountRepository
 import al.rouin.user.User
 import al.rouin.user.UserId
 import org.springframework.stereotype.Service

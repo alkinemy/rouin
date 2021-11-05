@@ -1,10 +1,10 @@
 package al.rouin.plaid
 
 import al.rouin.IntegrationTest
-import al.rouin.ledger.account.AccountClient
-import al.rouin.ledger.transaction.TransactionFetchForm
 import al.rouin.common.logger
-import al.rouin.ledger.transaction.TransactionClient
+import al.rouin.ledger.account.client.AccountClient
+import al.rouin.ledger.transaction.TransactionFetchForm
+import al.rouin.ledger.transaction.client.TransactionClient
 import al.rouin.user.User
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,11 +28,13 @@ class PlaidClientTest(
 
     @Test
     fun fetchTransactions() {
+        val accounts = accountClient.fetchAccounts(testUser)
         val transactions = transactionClient.fetch(
             TransactionFetchForm(
                 user = testUser,
                 from = LocalDate.now().minusDays(30),
-                to = LocalDate.now()
+                to = LocalDate.now(),
+                accountReferenceIds = accounts.map { it.referenceId },
             )
         )
         log.debug("transactions: $transactions")

@@ -1,6 +1,7 @@
-package al.rouin.ledger.account
+package al.rouin.ledger.account.client
 
 import al.rouin.external.ReferenceId
+import al.rouin.ledger.account.*
 import al.rouin.user.UserId
 import javax.persistence.*
 import javax.persistence.EnumType.STRING

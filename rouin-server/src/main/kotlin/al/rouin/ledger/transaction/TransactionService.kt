@@ -2,6 +2,9 @@ package al.rouin.ledger.transaction
 
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
+import al.rouin.ledger.transaction.client.TransactionClient
+import al.rouin.ledger.transaction.client.TransactionEntity
+import al.rouin.ledger.transaction.client.TransactionRepository
 import al.rouin.user.UserId
 import org.springframework.stereotype.Service
 

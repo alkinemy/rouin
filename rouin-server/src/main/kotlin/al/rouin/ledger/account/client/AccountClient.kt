@@ -1,7 +1,10 @@
-package al.rouin.ledger.account
+package al.rouin.ledger.account.client
 
 import al.rouin.external.ReferenceId
 import al.rouin.external.executeBody
+import al.rouin.ledger.account.AccountReference
+import al.rouin.ledger.account.AccountSubType
+import al.rouin.ledger.account.AccountType
 import al.rouin.user.User
 import com.plaid.client.model.AuthGetRequest
 import com.plaid.client.request.PlaidApi
@@ -30,10 +33,3 @@ class AccountClient(
 }
 
 
-data class AccountReference(
-    val referenceId: ReferenceId,
-    val name: String,
-    val officialName: String?,
-    val accountType: AccountType,
-    val accountSubType: AccountSubType?,
-)

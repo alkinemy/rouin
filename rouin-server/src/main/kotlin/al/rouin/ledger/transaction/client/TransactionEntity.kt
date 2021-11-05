@@ -1,9 +1,12 @@
-package al.rouin.ledger.transaction
+package al.rouin.ledger.transaction.client
 
 import al.rouin.common.Constants.EMPTY_STRING
-import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
+import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.transaction.Transaction
+import al.rouin.ledger.transaction.TransactionId
+import al.rouin.ledger.transaction.TransactionReference
 import al.rouin.user.UserId
 import java.time.LocalDate
 import javax.persistence.*

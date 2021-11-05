@@ -1,4 +1,4 @@
-package al.rouin.ledger.account
+package al.rouin.ledger.account.client
 
 import al.rouin.common.RouinRepository
 import org.springframework.stereotype.Repository
