@@ -1,17 +1,21 @@
 package al.rouin.user
 
+import al.rouin.ledger.category.CategoryService
 import al.rouin.token.PublicToken
 import al.rouin.token.TokenService
 import al.rouin.token.accesstoken.UserNotFoundException
 import al.rouin.user.repository.UserEntity
 import al.rouin.user.repository.UserRepository
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class UserService(
     private val tokenService: TokenService,
+    private val categoryService: CategoryService,
     private val userRepository: UserRepository,
 ) {
+    @Transactional
     fun create(email: String): UserId {
         val entity = userRepository.save(
             UserEntity(
@@ -19,7 +23,9 @@ class UserService(
                 email = email
             )
         )
-        return UserId(entity.userId)
+        val userId = UserId(entity.userId)
+        categoryService.initializeUserCategories(userId)
+        return userId
     }
 
     fun registerToken(userId: UserId, token: PublicToken) {

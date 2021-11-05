@@ -1,6 +1,7 @@
 package al.rouin.config.test
 
 import al.rouin.common.logger
+import al.rouin.ledger.category.CategoryService
 import al.rouin.token.TokenService
 import al.rouin.token.accesstoken.AccessToken
 import al.rouin.user.User
@@ -40,6 +41,7 @@ class TestConfig(
 class TestAccessTokenInjector(
     @Qualifier("testUser") private val testUser: User,
     private val userRepository: UserRepository,
+    private val categoryService: CategoryService,
     private val tokenService: TokenService,
 ) : ApplicationRunner {
 
@@ -51,6 +53,7 @@ class TestAccessTokenInjector(
             userId = testUser.userId.id,
         )
         userRepository.save(userEntity)
+        categoryService.initializeUserCategories(testUser.userId)
         log.debug("[TEST] email: ${testUser.email}")
         log.debug("[TEST] userId: ${testUser.userId}")
         testUser.accessTokens.forEach {

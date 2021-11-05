@@ -21,7 +21,7 @@ class UserController(
         TODO()
     }
 
-    @PostMapping("/api/v1/{userId}/tokens")
+    @PostMapping("/api/v1/users/{userId}/tokens")
     fun registerToken(@PathVariable userId: String, @RequestBody tokenDto: PublicTokenDto) {
         userService.registerToken(
             userId = UserId(userId),

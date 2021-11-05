@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController
 class AccountController(
     private val ledgerService: LedgerService,
 ) {
-    @GetMapping("/api/v1/{userId}/accounts")
+    @GetMapping("/api/v1/ledgers/{userId}/accounts")
     fun getAccounts(@PathVariable userId: String): List<AccountDto> =
         ledgerService.getAccounts(userId.id())
             .map { AccountDto.from(it) }
 
-    @PostMapping("/api/v1/{userId}/accounts/sync")
+    @PostMapping("/api/v1/ledgers/{userId}/accounts/sync")
     fun syncAccounts(@PathVariable userId: String) =
         ledgerService.syncAccounts(userId.id())
 

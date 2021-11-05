@@ -16,12 +16,12 @@ import java.time.LocalDate
 class TransactionController(
     private val ledgerService: LedgerService,
 ) {
-    @GetMapping("/api/v1/{userId}/transactions")
+    @GetMapping("/api/v1/ledgers/{userId}/transactions")
     fun getTransactions(@PathVariable userId: String): List<TransactionDto> =
         ledgerService.getTransactions(userId.id())
             .map { TransactionDto.from(it) }
 
-    @PostMapping("/api/v1/{userId}/transactions/sync")
+    @PostMapping("/api/v1/ledgers/{userId}/transactions/sync")
     fun syncTransactions(@PathVariable userId: String) =
         ledgerService.syncTransactions(userId.id())
 
