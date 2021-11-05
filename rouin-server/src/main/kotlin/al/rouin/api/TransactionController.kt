@@ -1,6 +1,6 @@
 package al.rouin.api
 
-import al.rouin.currency.CurrencyCode
+import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.ledger.LedgerService
 import al.rouin.ledger.account.AccountId
 import al.rouin.ledger.transaction.Transaction

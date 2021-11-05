@@ -1,7 +1,7 @@
 package al.rouin.ledger.transaction
 
 import al.rouin.common.Constants.EMPTY_STRING
-import al.rouin.currency.CurrencyCode
+import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
 import al.rouin.user.UserId
