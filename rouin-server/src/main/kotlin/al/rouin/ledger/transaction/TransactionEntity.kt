@@ -39,18 +39,20 @@ class TransactionEntity(
     val deleted: Boolean
 ) {
     companion object {
-        fun from(userId: UserId, accountId: AccountId, transaction: TransactionReference) = TransactionEntity(
-            transactionId = TransactionId.newId().id,
-            referenceId = transaction.transactionReferenceId.id,
-            userId = userId.id,
-            accountId = accountId.id,
-            name = transaction.name,
-            amount = transaction.amount,
-            date = transaction.date,
-            currency = transaction.currency,
-            description = EMPTY_STRING,
-            deleted = false,
-        )
+        fun from(userId: UserId, accountId: AccountId, transaction: TransactionReference) = with(transaction) {
+            TransactionEntity(
+                transactionId = TransactionId.newId().id,
+                referenceId = transactionReferenceId.id,
+                userId = userId.id,
+                accountId = accountId.id,
+                name = name,
+                amount = amount,
+                date = date,
+                currency = currency,
+                description = EMPTY_STRING,
+                deleted = false,
+            )
+        }
     }
 
     @Transient

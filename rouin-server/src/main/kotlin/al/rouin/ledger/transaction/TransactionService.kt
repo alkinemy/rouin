@@ -21,7 +21,7 @@ class TransactionService(
                 { it.toModel() }
             )
 
-    fun fetch(form: TransactionForm): List<TransactionReference> = transactionClient.fetch(form)
+    fun fetch(form: TransactionFetchForm): List<TransactionReference> = transactionClient.fetch(form)
 
     fun register(userId: UserId, accountIdToTransaction: Map<AccountId, TransactionReference>): List<Transaction> {
         val entities = accountIdToTransaction

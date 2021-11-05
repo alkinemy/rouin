@@ -2,7 +2,7 @@ package al.rouin.plaid
 
 import al.rouin.IntegrationTest
 import al.rouin.ledger.account.AccountClient
-import al.rouin.ledger.transaction.TransactionForm
+import al.rouin.ledger.transaction.TransactionFetchForm
 import al.rouin.common.logger
 import al.rouin.ledger.transaction.TransactionClient
 import al.rouin.user.User
@@ -29,7 +29,7 @@ class PlaidClientTest(
     @Test
     fun fetchTransactions() {
         val transactions = transactionClient.fetch(
-            TransactionForm(
+            TransactionFetchForm(
                 user = testUser,
                 from = LocalDate.now().minusDays(30),
                 to = LocalDate.now()

@@ -34,17 +34,19 @@ class AccountEntity(
     val deleted: Boolean,
 ) {
     companion object {
-        fun from(userId: UserId, account: AccountReference): AccountEntity = AccountEntity(
-            accountId = AccountId.newId().id,
-            referenceId = account.referenceId.id,
-            userId = userId.id,
-            name = account.name,
-            aliasName = account.name,
-            officialName = account.officialName,
-            accountType = account.accountType,
-            accountSubType = account.accountSubType,
-            deleted = false,
-        )
+        fun from(userId: UserId, account: AccountReference): AccountEntity = with(account) {
+            AccountEntity(
+                accountId = AccountId.newId().id,
+                referenceId = referenceId.id,
+                userId = userId.id,
+                name = name,
+                aliasName = name,
+                officialName = officialName,
+                accountType = accountType,
+                accountSubType = accountSubType,
+                deleted = false,
+            )
+        }
     }
 
     @Transient

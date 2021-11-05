@@ -5,7 +5,7 @@ import al.rouin.ledger.account.AccountService
 import al.rouin.ledger.account.AccountSubType
 import al.rouin.ledger.account.AccountType
 import al.rouin.ledger.transaction.Transaction
-import al.rouin.ledger.transaction.TransactionForm
+import al.rouin.ledger.transaction.TransactionFetchForm
 import al.rouin.ledger.transaction.TransactionService
 import al.rouin.user.UserId
 import al.rouin.user.UserService
@@ -48,7 +48,7 @@ class LedgerService(
         val fetchTo = LocalDate.now()
         val referenceIdToAccount = accountService.getByReferenceId(userId)
         val fetchedTransactions = transactionService.fetch(
-            TransactionForm(
+            TransactionFetchForm(
                 user = user,
                 from = fetchFrom,
                 to = fetchTo,
