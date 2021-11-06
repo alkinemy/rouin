@@ -13,7 +13,7 @@ class CategoryController(
     private val categoryService: CategoryService
 ) {
     @GetMapping("/api/v1/ledgers/{userId}/categories")
-    fun getCategories(@PathVariable userId: String): List<CategoryDto> = categoryService.getCategories(UserId(userId))
+    fun getCategories(@PathVariable userId: UserId): List<CategoryDto> = categoryService.getCategories(userId)
         .map { CategoryDto.from(it) }
 }
 

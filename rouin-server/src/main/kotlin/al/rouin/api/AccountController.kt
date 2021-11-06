@@ -16,15 +16,14 @@ class AccountController(
     private val ledgerService: LedgerService,
 ) {
     @GetMapping("/api/v1/ledgers/{userId}/accounts")
-    fun getAccounts(@PathVariable userId: String): List<AccountDto> =
-        ledgerService.getAccounts(userId.id())
+    fun getAccounts(@PathVariable userId: UserId): List<AccountDto> =
+        ledgerService.getAccounts(userId)
             .map { AccountDto.from(it) }
 
     @PostMapping("/api/v1/ledgers/{userId}/accounts/sync")
-    fun syncAccounts(@PathVariable userId: String) =
-        ledgerService.syncAccounts(userId.id())
+    fun syncAccounts(@PathVariable userId: UserId) =
+        ledgerService.syncAccounts(userId)
 
-    private fun String.id() = UserId(this)
 }
 
 

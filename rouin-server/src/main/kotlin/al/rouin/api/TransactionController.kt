@@ -17,15 +17,13 @@ class TransactionController(
     private val ledgerService: LedgerService,
 ) {
     @GetMapping("/api/v1/ledgers/{userId}/transactions")
-    fun getTransactions(@PathVariable userId: String): List<TransactionDto> =
-        ledgerService.getTransactions(userId.id())
+    fun getTransactions(@PathVariable userId: UserId): List<TransactionDto> =
+        ledgerService.getTransactions(userId)
             .map { TransactionDto.from(it) }
 
     @PostMapping("/api/v1/ledgers/{userId}/transactions/sync")
-    fun syncTransactions(@PathVariable userId: String) =
-        ledgerService.syncTransactions(userId.id())
-
-    private fun String.id() = UserId(this)
+    fun syncTransactions(@PathVariable userId: UserId) =
+        ledgerService.syncTransactions(userId)
 }
 
 

@@ -22,9 +22,9 @@ class UserController(
     }
 
     @PostMapping("/api/v1/users/{userId}/tokens")
-    fun registerToken(@PathVariable userId: String, @RequestBody tokenDto: PublicTokenDto) {
+    fun registerToken(@PathVariable userId: UserId, @RequestBody tokenDto: PublicTokenDto) {
         userService.registerToken(
-            userId = UserId(userId),
+            userId = userId,
             token = PublicToken(tokenDto.token)
         )
     }
