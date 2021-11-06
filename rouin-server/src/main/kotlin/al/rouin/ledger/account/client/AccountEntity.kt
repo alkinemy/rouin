@@ -15,11 +15,11 @@ class AccountEntity(
     @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
     @Column(name = "account_id", unique = true)
-    val accountId: String,
+    val accountId: AccountId,
     @Column(name = "reference_id", unique = true)
-    val referenceId: String,
+    val referenceId: ReferenceId,
     @Column(name = "user_id")
-    val userId: String,
+    val userId: UserId,
     @Column(name = "name")
     val name: String,
     @Column(name = "alias_name")
@@ -38,9 +38,9 @@ class AccountEntity(
     companion object {
         fun from(userId: UserId, account: AccountReference): AccountEntity = with(account) {
             AccountEntity(
-                accountId = AccountId.newId().id,
-                referenceId = referenceId.id,
-                userId = userId.id,
+                accountId = AccountId.newId(),
+                referenceId = referenceId,
+                userId = userId,
                 name = name,
                 aliasName = name,
                 officialName = officialName,
@@ -53,8 +53,8 @@ class AccountEntity(
 
     @Transient
     fun toModel() = Account(
-        accountId = AccountId(accountId),
-        referenceId = ReferenceId(referenceId),
+        accountId = accountId,
+        referenceId = referenceId,
         name = name,
         aliasName = aliasName,
         officialName = officialName,

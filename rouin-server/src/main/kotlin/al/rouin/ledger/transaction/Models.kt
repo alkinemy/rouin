@@ -2,9 +2,11 @@ package al.rouin.ledger.transaction
 
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
+import al.rouin.ledger.category.CategoryId
 import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.user.UserId
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
 import com.fasterxml.jackson.annotation.JsonValue
 import java.time.LocalDate
 import java.util.*
@@ -15,6 +17,7 @@ data class Transaction(
     val referenceId: ReferenceId,
     val userId: UserId,
     val accountId: AccountId,
+    val categoryId: CategoryId,
     val name: String,
     val amount: Double,
     val date: LocalDate,
@@ -23,7 +26,7 @@ data class Transaction(
 )
 
 
-data class TransactionId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
+data class TransactionId @JsonCreator(mode = DELEGATING) constructor(
     val id: String
 ) {
 

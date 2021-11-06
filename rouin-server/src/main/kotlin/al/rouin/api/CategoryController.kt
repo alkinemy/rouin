@@ -13,7 +13,7 @@ class CategoryController(
     private val categoryService: CategoryService
 ) {
     @GetMapping("/api/v1/ledgers/{userId}/categories")
-    fun getCategories(@PathVariable userId: String): List<CategoryDto> = categoryService.get(UserId(userId))
+    fun getCategories(@PathVariable userId: String): List<CategoryDto> = categoryService.getCategories(UserId(userId))
         .map { CategoryDto.from(it) }
 }
 
@@ -22,7 +22,6 @@ data class CategoryDto(
     val categoryId: CategoryId,
     val userId: UserId,
     val name: String,
-    val budget: Double?,
 ) {
     companion object {
         fun from(model: Category) = with(model) {
@@ -30,7 +29,6 @@ data class CategoryDto(
                 categoryId = categoryId,
                 userId = userId,
                 name = name,
-                budget = budget,
             )
         }
     }

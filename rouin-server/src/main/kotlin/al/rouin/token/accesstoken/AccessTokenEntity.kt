@@ -12,14 +12,14 @@ class AccessTokenEntity(
     @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
     @Column(name = "user_id", unique = true)
-    val userId: String,
+    val userId: UserId,
     @Column(name = "access_token")
     val accessToken: String,
     @Column(name = "item_id")
     val itemId: String,
 ) : AuditEntity() {
     constructor(userId: UserId, accessToken: AccessToken) : this(
-        userId = userId.id,
+        userId = userId,
         accessToken = accessToken.token,
         itemId = accessToken.itemId
     )

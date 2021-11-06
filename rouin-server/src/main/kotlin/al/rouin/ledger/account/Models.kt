@@ -2,6 +2,7 @@ package al.rouin.ledger.account
 
 import al.rouin.external.ReferenceId
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
 import com.fasterxml.jackson.annotation.JsonValue
 import java.util.*
 
@@ -17,7 +18,7 @@ data class Account(
 )
 
 
-data class AccountId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
+data class AccountId @JsonCreator(mode = DELEGATING) constructor(
     val id: String
 ) {
     companion object {

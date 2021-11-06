@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 class AccessTokenService(
     private val accessTokenRepository: AccessTokenRepository,
 ) {
-    fun getAccessTokens(userId: UserId): List<AccessToken> = accessTokenRepository.findByUserId(userId = userId.id)
+    fun getAccessTokens(userId: UserId): List<AccessToken> = accessTokenRepository.findByUserId(userId)
         .map { it.toAccessToken() }
 
     fun saveAccessToken(userId: UserId, accessToken: AccessToken) {

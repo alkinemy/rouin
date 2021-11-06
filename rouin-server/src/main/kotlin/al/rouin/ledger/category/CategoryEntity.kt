@@ -1,7 +1,7 @@
 package al.rouin.ledger.category
 
 import al.rouin.common.AuditEntity
-import al.rouin.common.Constants.DEFAULT_CATEGORY_NAME
+import al.rouin.common.Constants.UNCATEGORIZED_CATEGORY_NAME
 import al.rouin.user.UserId
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
@@ -13,35 +13,31 @@ class CategoryEntity(
     @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
     @Column(name = "category_id", unique = true)
-    val categoryId: String,
+    val categoryId: CategoryId,
     @Column(name = "user_id")
-    val userId: String,
+    val userId: UserId,
     @Column(name = "name")
     val name: String,
-    @Column(name = "budget")
-    val budget: Double? = null,
 ) : AuditEntity() {
 
     companion object {
-        fun from(userId: UserId, name: String, budget: Double) = CategoryEntity(
-            categoryId = CategoryId.newId().id,
-            userId = userId.id,
+        fun from(userId: UserId, name: String) = CategoryEntity(
+            categoryId = CategoryId.newId(),
+            userId = userId,
             name = name,
-            budget = budget
         )
 
-        fun defaultCategory(userId: UserId) = CategoryEntity(
-            categoryId = CategoryId.defaultCategoryId(userId).id,
-            userId = userId.id,
-            name = DEFAULT_CATEGORY_NAME,
+        fun uncategorized(userId: UserId) = CategoryEntity(
+            categoryId = CategoryId.uncategorized(userId),
+            userId = userId,
+            name = UNCATEGORIZED_CATEGORY_NAME,
         )
     }
 
     @Transient
     fun toModel() = Category(
-        categoryId = CategoryId(categoryId),
-        userId = UserId(userId),
+        categoryId = categoryId,
+        userId = userId,
         name = name,
-        budget = budget
     )
 }

@@ -50,7 +50,7 @@ class TestAccessTokenInjector(
     override fun run(args: ApplicationArguments?) {
         val userEntity = UserEntity(
             email = testUser.email,
-            userId = testUser.userId.id,
+            userId = testUser.userId,
         )
         userRepository.save(userEntity)
         categoryService.initializeUserCategories(testUser.userId)

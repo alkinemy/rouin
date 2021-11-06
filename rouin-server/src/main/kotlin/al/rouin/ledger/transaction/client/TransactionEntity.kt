@@ -4,6 +4,7 @@ import al.rouin.common.AuditEntity
 import al.rouin.common.Constants.EMPTY_STRING
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
+import al.rouin.ledger.category.CategoryId
 import al.rouin.ledger.currency.CurrencyCode
 import al.rouin.ledger.transaction.Transaction
 import al.rouin.ledger.transaction.TransactionId
@@ -21,13 +22,15 @@ class TransactionEntity(
     @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
     @Column(name = "transaction_id")
-    val transactionId: String,
+    val transactionId: TransactionId,
     @Column(name = "reference_id")
-    val referenceId: String,
+    val referenceId: ReferenceId,
     @Column(name = "user_id")
-    val userId: String,
+    val userId: UserId,
     @Column(name = "account_id")
-    val accountId: String,
+    val accountId: AccountId,
+    @Column(name = "category_id")
+    val categoryId: CategoryId,
     @Column(name = "name")
     val name: String,
     @Column(name = "date")
@@ -45,10 +48,11 @@ class TransactionEntity(
     companion object {
         fun from(userId: UserId, accountId: AccountId, transaction: TransactionReference) = with(transaction) {
             TransactionEntity(
-                transactionId = TransactionId.newId().id,
-                referenceId = transactionReferenceId.id,
-                userId = userId.id,
-                accountId = accountId.id,
+                transactionId = TransactionId.newId(),
+                referenceId = transactionReferenceId,
+                userId = userId,
+                accountId = accountId,
+                categoryId = CategoryId.uncategorized(userId),
                 name = name,
                 amount = amount,
                 date = date,
@@ -61,10 +65,11 @@ class TransactionEntity(
 
     @Transient
     fun toModel() = Transaction(
-        transactionId = TransactionId(transactionId),
-        referenceId = ReferenceId(referenceId),
-        userId = UserId(userId),
-        accountId = AccountId(accountId),
+        transactionId = transactionId,
+        referenceId = referenceId,
+        userId = userId,
+        accountId = accountId,
+        categoryId = categoryId,
         name = name,
         amount = amount,
         date = date,

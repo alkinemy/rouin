@@ -1,9 +1,9 @@
 package al.rouin.user
 
+import al.rouin.common.UserNotFoundException
 import al.rouin.ledger.category.CategoryService
 import al.rouin.token.PublicToken
 import al.rouin.token.TokenService
-import al.rouin.token.accesstoken.UserNotFoundException
 import al.rouin.user.repository.UserEntity
 import al.rouin.user.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -19,11 +19,11 @@ class UserService(
     fun create(email: String): UserId {
         val entity = userRepository.save(
             UserEntity(
-                userId = UserId.newId().id,
+                userId = UserId.newId(),
                 email = email
             )
         )
-        val userId = UserId(entity.userId)
+        val userId = entity.userId
         categoryService.initializeUserCategories(userId)
         return userId
     }
@@ -35,10 +35,10 @@ class UserService(
 
     fun getUser(userId: UserId): User {
         //TODO join table
-        val entity = userRepository.findByUserId(userId = userId.id) ?: throw UserNotFoundException("User doesn't exist")
-        val accessTokens = tokenService.getAccessTokens(userId = userId)
+        val entity = userRepository.findByUserId(userId) ?: throw UserNotFoundException("User doesn't exist")
+        val accessTokens = tokenService.getAccessTokens(userId)
         return User(
-            userId = UserId(entity.userId),
+            userId = entity.userId,
             email = entity.email,
             accessTokens = accessTokens
         )

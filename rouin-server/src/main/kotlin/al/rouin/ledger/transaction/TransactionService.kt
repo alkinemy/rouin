@@ -14,20 +14,20 @@ class TransactionService(
     private val transactionRepository: TransactionRepository,
 ) {
 
-    fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserIdAndDeletedFalse(userId.id)
+    fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserIdAndDeletedFalse(userId)
         .map { it.toModel() }
 
     fun getLastTransaction(userId: UserId): Transaction? =
-        transactionRepository.findByUserIdAndDeletedFalseOrderByIdDesc(userId.id)
+        transactionRepository.findByUserIdAndDeletedFalseOrderByIdDesc(userId)
             ?.toModel()
 
     fun getByReferenceId(form: TransactionQueryForm): Map<ReferenceId, Transaction> = with(form) {
         transactionRepository.findByUserIdAndDateGreaterThanEqualAndDateLessThanEqualAndDeletedFalse(
-            userId = userId.id,
+            userId = userId,
             from = from,
             to = to,
         ).associateBy(
-            { ReferenceId(it.referenceId) },
+            { it.referenceId },
             { it.toModel() }
         )
     }

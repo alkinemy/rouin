@@ -2,6 +2,7 @@ package al.rouin.user
 
 import al.rouin.token.accesstoken.AccessToken
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING
 import com.fasterxml.jackson.annotation.JsonValue
 import java.util.*
 
@@ -13,7 +14,7 @@ data class User(
 )
 
 
-data class UserId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
+data class UserId @JsonCreator(mode = DELEGATING) constructor(
     val id: String
 ) {
     companion object {
