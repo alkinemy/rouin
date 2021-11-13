@@ -29,3 +29,23 @@ class BudgetNotFoundException : RouinException {
     constructor(message: String, cause: Throwable) : super(message, cause)
     constructor(cause: Throwable) : super(cause)
 }
+
+
+class RestServerException : RouinException {
+    override val errorCode: ErrorCode = ErrorCode.INTERNAL_SERVER_ERROR
+
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+    constructor(cause: Throwable) : super(cause)
+}
+
+
+class RestClientException : RouinException {
+    override val errorCode: ErrorCode = ErrorCode.BAD_REQUEST
+
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+    constructor(cause: Throwable) : super(cause)
+}

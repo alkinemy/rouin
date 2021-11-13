@@ -1,4 +1,4 @@
-package al.rouin.ledger.currency
+package al.rouin.ledger.exchange
 
 enum class CurrencyCode {
     USD,

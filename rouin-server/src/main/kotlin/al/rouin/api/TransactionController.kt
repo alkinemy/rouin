@@ -2,7 +2,7 @@ package al.rouin.api
 
 import al.rouin.ledger.LedgerService
 import al.rouin.ledger.account.AccountId
-import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.exchange.CurrencyCode
 import al.rouin.ledger.transaction.Transaction
 import al.rouin.ledger.transaction.TransactionId
 import al.rouin.user.UserId

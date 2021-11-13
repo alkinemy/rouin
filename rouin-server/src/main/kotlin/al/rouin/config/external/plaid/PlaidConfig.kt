@@ -1,4 +1,4 @@
-package al.rouin.config.plaid
+package al.rouin.config.external.plaid
 
 import com.plaid.client.ApiClient
 import com.plaid.client.request.PlaidApi

@@ -1,6 +1,6 @@
 package al.rouin.token
 
-import al.rouin.config.plaid.PlaidProperties
+import al.rouin.config.external.plaid.PlaidProperties
 import al.rouin.external.executeBody
 import al.rouin.token.accesstoken.AccessToken
 import com.plaid.client.model.ItemPublicTokenExchangeRequest

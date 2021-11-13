@@ -4,6 +4,7 @@ import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
 import al.rouin.ledger.budget.BudgetId
 import al.rouin.ledger.category.CategoryId
+import al.rouin.ledger.exchange.ExchangeRateId
 import al.rouin.ledger.transaction.TransactionId
 import al.rouin.user.UserId
 import org.springframework.data.annotation.CreatedDate
@@ -73,4 +74,12 @@ class ReferenceIdConverter : AttributeConverter<ReferenceId, String> {
     override fun convertToDatabaseColumn(attribute: ReferenceId?): String? = attribute?.id
 
     override fun convertToEntityAttribute(dbData: String?): ReferenceId? = dbData?.let { ReferenceId(it) }
+}
+
+
+@Converter(autoApply = true)
+class ExchangeRateConverter : AttributeConverter<ExchangeRateId, String> {
+    override fun convertToDatabaseColumn(attribute: ExchangeRateId?): String? = attribute?.id
+
+    override fun convertToEntityAttribute(dbData: String?): ExchangeRateId? = dbData?.let { ExchangeRateId(it) }
 }

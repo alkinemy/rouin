@@ -42,10 +42,10 @@ CREATE TABLE transactions(
     reference_id VARCHAR(256) NOT NULL UNIQUE,
     user_id VARCHAR(256) NOT NULL,
     account_id VARCHAR(256) NOT NULL,
-    amount DOUBLE DEFAULT 0 NOT NULL,
+    amount DOUBLE NOT NULL DEFAULT 0,
     currency VARCHAR(3) NOT NULL,
     description VARCHAR(256) NOT NULL,
-    deleted TINYINT(1) DEFAULT FALSE NOT NULL,
+    deleted TINYINT(1) NOT NULL DEFAULT FALSE,
     created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,7 +62,7 @@ CREATE TABLE categories(
 
 
 CREATE TABLE budgets(
-    ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     budget_id VARCHAR(256) NOT NULL UNIQUE,
     category_id VARCHAR(256) NOT NULL,
     user_id VARCHAR(256) NOT NULL,
@@ -73,3 +73,20 @@ CREATE TABLE budgets(
     created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE exchange_rates(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    exchange_rate_id VARCHAR(256) NOT NULL UNIQUE,
+    from_currency VARCHAR(3) NOT NULL,
+    to_currency VARCHAR(3) NOT NULL,
+    exchange_rate DOUBLE NOT NULL,
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO exchange_rates(id, exchange_rate_id, from_currency, to_currency, exchange_rate)
+VALUES (1, 'CAD_KRW', 'CAD', 'KRW', 940.135004);
+INSERT INTO exchange_rates(id, exchange_rate_id, from_currency, to_currency, exchange_rate)
+VALUES (2, 'KRW_CAD', 'KRW', 'CAD', 0.001064);

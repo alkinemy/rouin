@@ -3,7 +3,7 @@ package al.rouin.ledger.transaction.client
 import al.rouin.common.logger
 import al.rouin.external.ReferenceId
 import al.rouin.external.executeBody
-import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.exchange.CurrencyCode
 import al.rouin.ledger.transaction.TransactionFetchForm
 import al.rouin.ledger.transaction.TransactionReference
 import al.rouin.token.accesstoken.AccessToken

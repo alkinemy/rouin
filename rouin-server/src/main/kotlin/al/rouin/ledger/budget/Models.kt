@@ -2,7 +2,7 @@ package al.rouin.ledger.budget
 
 import al.rouin.ledger.category.Category
 import al.rouin.ledger.category.CategoryId
-import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.exchange.CurrencyCode
 import al.rouin.user.UserId
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING

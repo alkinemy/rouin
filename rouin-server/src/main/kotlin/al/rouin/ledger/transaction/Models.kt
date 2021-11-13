@@ -3,7 +3,7 @@ package al.rouin.ledger.transaction
 import al.rouin.external.ReferenceId
 import al.rouin.ledger.account.AccountId
 import al.rouin.ledger.category.CategoryId
-import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.exchange.CurrencyCode
 import al.rouin.user.UserId
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING

@@ -1,9 +1,13 @@
 spring:
   application:
     name: rouin
+  jpa:
+    open-in-view: false
   jackson:
     serialization:
       write_dates_as_timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
 
 server.port: 10180
 
@@ -14,10 +18,18 @@ logging:
 
 
 rouin:
-  plaid:
-    environment: DEVELOPMENT # SANDBOX, DEVELOPMENT, PRODUCTION
-    client-id: ${PLAID_CLIENT_ID}
-    secret: ${PLAID_SECRET}
-    version: 2020-09-14
-    country-code: CA
-    language: en
+  rest:
+    connect-timeout-in-milliseconds: 500
+    read-timeout-in-milliseconds: 2000
+    write-timeout-in-milliseconds: 2000
+  external:
+    plaid:
+      environment: DEVELOPMENT # SANDBOX, DEVELOPMENT, PRODUCTION
+      client-id: ${PLAID_CLIENT_ID}
+      secret: ${PLAID_SECRET}
+      version: 2020-09-14
+      country-code: CA
+      language: en
+    exchange-rate:
+      base-url: https://free.currconv.com
+      api-key: ${EXCHANGE_RATE_API_KEY}

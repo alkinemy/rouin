@@ -2,7 +2,7 @@ package al.rouin.ledger.budget
 
 import al.rouin.common.AuditEntity
 import al.rouin.ledger.category.CategoryId
-import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.exchange.CurrencyCode
 import al.rouin.user.UserId
 import java.time.YearMonth
 import javax.persistence.*

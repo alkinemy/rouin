@@ -1,4 +1,4 @@
-package al.rouin.config.plaid
+package al.rouin.config.external.plaid
 
 import com.plaid.client.ApiClient
 import com.plaid.client.model.CountryCode
@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
-@ConfigurationProperties("rouin.plaid")
+@ConfigurationProperties("rouin.external.plaid")
 data class PlaidProperties(
     val clientId: String,
     val secret: String,

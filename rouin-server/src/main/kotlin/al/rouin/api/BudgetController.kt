@@ -5,7 +5,7 @@ import al.rouin.ledger.budget.TotalBudget
 import al.rouin.ledger.budget.TotalBudgetCreationForm
 import al.rouin.ledger.budget.TotalBudgetService
 import al.rouin.ledger.category.CategoryId
-import al.rouin.ledger.currency.CurrencyCode
+import al.rouin.ledger.exchange.CurrencyCode
 import al.rouin.user.UserId
 import org.springframework.web.bind.annotation.*
 import java.time.YearMonth

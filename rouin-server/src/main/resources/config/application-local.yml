@@ -5,7 +5,7 @@ spring:
     password: password
     driverClassName: org.h2.Driver
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
 
 
 logging:
@@ -21,5 +21,6 @@ rouin:
       user-id: 6446271d-e744-4d71-a2f6-92e2242ef9f8
       access-token: ${TEST_ACCESS_TOKEN}
       item-id: ${TEST_ITEM_ID}
-  plaid:
-    environment: SANDBOX # SANDBOX, DEVELOPMENT, PRODUCTION
+  external:
+    plaid:
+      environment: SANDBOX # SANDBOX, DEVELOPMENT, PRODUCTION
