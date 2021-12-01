@@ -2,6 +2,7 @@ package al.rouin.user
 
 import al.rouin.common.UserNotFoundException
 import al.rouin.ledger.category.CategoryService
+import al.rouin.token.LinkToken
 import al.rouin.token.PublicToken
 import al.rouin.token.TokenService
 import al.rouin.user.repository.UserEntity
@@ -31,6 +32,10 @@ class UserService(
     fun registerToken(userId: UserId, token: PublicToken) {
         val accessToken = tokenService.exchangePublicTokenToAccessToken(token)
         tokenService.saveAccessToken(userId = userId, accessToken = accessToken)
+    }
+
+    fun issueLinkToken(userId: UserId): LinkToken {
+        return tokenService.issueLinkToken(userId)
     }
 
     fun getUser(userId: UserId): User {

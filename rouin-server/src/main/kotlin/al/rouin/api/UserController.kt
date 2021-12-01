@@ -29,12 +29,18 @@ class UserController(
         )
     }
 
-    @PostMapping("/api/v1/users/{userId}/tokens")
+    @PostMapping("/api/v1/users/{userId}/tokens/public")
     fun registerToken(@PathVariable userId: UserId, @RequestBody tokenDto: PublicTokenDto) {
         userService.registerToken(
             userId = userId,
             token = PublicToken(tokenDto.token)
         )
+    }
+
+    @PostMapping("/api/v1/users/{userId}/tokens/links")
+    fun issueLinkToken(@PathVariable userId: UserId): TokenDto {
+        val token = userService.issueLinkToken(userId)
+        return TokenDto(token = token.token)
     }
 }
 
@@ -59,6 +65,11 @@ data class UserDto(
             email = model.email,
         )
     }
+}
+
+
+data class TokenDto(
+    val token: String,
 )
 
 

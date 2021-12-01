@@ -2,7 +2,9 @@ package al.rouin.token
 
 import al.rouin.token.accesstoken.AccessToken
 import al.rouin.token.accesstoken.AccessTokenService
+import al.rouin.user.User
 import al.rouin.user.UserId
+import al.rouin.user.UserService
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,7 +12,9 @@ class TokenService(
     private val tokenClient: TokenClient,
     private val accessTokenService: AccessTokenService,
 ) {
-    fun issueLinkToken(id: String) = tokenClient.issueLinkToken(id = id)
+    fun issueLinkToken(userId: UserId): LinkToken {
+        return tokenClient.issueLinkToken(id = userId.id)
+    }
 
     fun exchangePublicTokenToAccessToken(token: PublicToken) = tokenClient.exchangePublicTokenToAccessToken(token = token)
 
