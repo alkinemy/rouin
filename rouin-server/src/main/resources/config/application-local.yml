@@ -1,11 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/rouin?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: none
 
 
 logging:
@@ -15,12 +17,9 @@ logging:
 
 
 rouin:
-  local-test:
-    auth:
-      email: test@test.com
-      user-id: 6446271d-e744-4d71-a2f6-92e2242ef9f8
-      access-token: ${TEST_ACCESS_TOKEN}
-      item-id: ${TEST_ITEM_ID}
+  user:
+    email: test@test.com
+    user-id: 6446271d-e744-4d71-a2f6-92e2242ef9f8
   external:
     plaid:
       environment: SANDBOX # SANDBOX, DEVELOPMENT, PRODUCTION

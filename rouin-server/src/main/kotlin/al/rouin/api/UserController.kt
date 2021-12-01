@@ -1,14 +1,18 @@
 package al.rouin.api
 
 import al.rouin.token.PublicToken
+import al.rouin.user.User
 import al.rouin.user.UserId
 import al.rouin.user.UserService
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class UserController(
     private val userService: UserService,
+    @Value("\${rouin.user.email}") private val email: String,
+    @Value("\${rouin.user.user-id}") private val userId: String,
 ) {
     @PostMapping("/api/v1/users/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
@@ -18,7 +22,11 @@ class UserController(
 
     @PostMapping("/api/v1/users/sign-in")
     fun signIn(@RequestBody signInDto: SignInDto): UserDto {
-        TODO()
+        //TODO implement sign-in process
+        return UserDto(
+            userId = UserId(userId),
+            email = email,
+        )
     }
 
     @PostMapping("/api/v1/users/{userId}/tokens")
@@ -42,8 +50,15 @@ data class SignInDto(
 
 
 data class UserDto(
+    val userId: UserId,
     val email: String,
-    val userId: String
+) {
+    companion object {
+        fun from(model: User) = UserDto(
+            userId = model.userId,
+            email = model.email,
+        )
+    }
 )
 
 

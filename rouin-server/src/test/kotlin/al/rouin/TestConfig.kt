@@ -1,4 +1,4 @@
-package al.rouin.config.test
+package al.rouin
 
 import al.rouin.common.logger
 import al.rouin.ledger.category.CategoryService
@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service
 @Profile("local", "test")
 @Configuration
 class TestConfig(
-    @Value("\${rouin.local-test.auth.email}") private val email: String,
-    @Value("\${rouin.local-test.auth.user-id}") private val userId: String,
-    @Value("\${rouin.local-test.auth.access-token}") private val accessToken: String,
-    @Value("\${rouin.local-test.auth.item-id}") private val itemId: String,
+    @Value("\${rouin.user.email}") private val email: String,
+    @Value("\${rouin.user.user-id}") private val userId: String,
+    @Value("\${rouin.user.access-token}") private val accessToken: String,
+    @Value("\${rouin.user.item-id}") private val itemId: String,
 ) {
     @Bean
     fun testUser(): User {
@@ -36,7 +36,7 @@ class TestConfig(
 }
 
 
-@Profile("local", "test")
+@Profile("test")
 @Service
 class TestAccessTokenInjector(
     @Qualifier("testUser") private val testUser: User,
