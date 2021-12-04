@@ -14,23 +14,24 @@ class TransactionService(
     private val transactionRepository: TransactionRepository,
 ) {
 
-    fun get(userId: UserId): List<Transaction> = transactionRepository.findByUserIdAndDeletedFalse(userId)
+    fun get(form: TransactionQueryForm): List<Transaction> = form.execute()
         .map { it.toModel() }
 
     fun getLastTransaction(userId: UserId): Transaction? =
         transactionRepository.findByUserIdAndDeletedFalseOrderByIdDesc(userId)
             ?.toModel()
 
-    fun getByReferenceId(form: TransactionQueryForm): Map<ReferenceId, Transaction> = with(form) {
-        transactionRepository.findByUserIdAndDateGreaterThanEqualAndDateLessThanEqualAndDeletedFalse(
-            userId = userId,
-            from = from,
-            to = to,
-        ).associateBy(
+    fun getByReferenceId(form: TransactionQueryForm): Map<ReferenceId, Transaction> = form.execute()
+        .associateBy(
             { it.referenceId },
             { it.toModel() }
         )
-    }
+
+    private fun TransactionQueryForm.execute() = transactionRepository.findByUserIdAndDateGreaterThanEqualAndDateLessThanEqualAndDeletedFalse(
+        userId = userId,
+        from = from.atStartOfDay(),
+        to = (to.plusDays(1).atStartOfDay().minusNanos(1)),
+    )
 
     fun fetch(form: TransactionFetchForm): List<TransactionReference> = transactionClient.fetch(form)
 

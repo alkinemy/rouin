@@ -13,7 +13,7 @@ class CategoryController(
     private val categoryService: CategoryService
 ) {
     @GetMapping("/api/v1/ledgers/{userId}/categories")
-    fun getCategories(@PathVariable userId: UserId): List<CategoryDto> = categoryService.getCategories(userId)
+    fun getCategories(@PathVariable userId: UserId): List<CategoryDto> = categoryService.getExcludingUnCategorized(userId)
         .map { CategoryDto.from(it) }
 }
 

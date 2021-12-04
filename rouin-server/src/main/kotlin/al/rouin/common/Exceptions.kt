@@ -21,6 +21,26 @@ class UserNotFoundException : RouinException {
 }
 
 
+class AccountNotFoundException : RouinException {
+    override val errorCode: ErrorCode = ErrorCode.ACCOUNT_NOT_FOUND
+
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+    constructor(cause: Throwable) : super(cause)
+}
+
+
+class CategoryNotFoundException : RouinException {
+    override val errorCode: ErrorCode = ErrorCode.CATEGORY_NOT_FOUND
+
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+    constructor(cause: Throwable) : super(cause)
+}
+
+
 class BudgetNotFoundException : RouinException {
     override val errorCode: ErrorCode = ErrorCode.BUDGET_NOT_FOUND
 

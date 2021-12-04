@@ -1,22 +1,24 @@
 package al.rouin.ledger
 
-import al.rouin.ledger.account.Account
-import al.rouin.ledger.account.AccountService
-import al.rouin.ledger.account.AccountSubType
-import al.rouin.ledger.account.AccountType
-import al.rouin.ledger.transaction.Transaction
-import al.rouin.ledger.transaction.TransactionFetchForm
-import al.rouin.ledger.transaction.TransactionQueryForm
-import al.rouin.ledger.transaction.TransactionService
+import al.rouin.common.AccountNotFoundException
+import al.rouin.common.CategoryNotFoundException
+import al.rouin.common.getOrThrow
+import al.rouin.ledger.account.*
+import al.rouin.ledger.category.Category
+import al.rouin.ledger.category.CategoryId
+import al.rouin.ledger.category.CategoryService
+import al.rouin.ledger.transaction.*
 import al.rouin.user.UserId
 import al.rouin.user.UserService
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.YearMonth
 
 @Service
 class LedgerService(
     private val userService: UserService,
     private val accountService: AccountService,
+    private val categoryService: CategoryService,
     private val transactionService: TransactionService,
 ) {
     companion object {
@@ -37,13 +39,45 @@ class LedgerService(
         accountService.register(userId, notRegisteredAccounts)
     }
 
-    fun getTransactions(userId: UserId): List<Transaction> = transactionService.get(userId)
+    fun getRichTransactions(userId: UserId, yearMonth: YearMonth): List<RichTransaction> {
+        val transactions = transactionService.get(
+            TransactionQueryForm(
+                userId = userId,
+                from = yearMonth.atDay(1),
+                to = yearMonth.atEndOfMonth(),
+            )
+        )
+        val accountIdToAccount = getTransactionAccounts(userId = userId, transactions = transactions)
+        val categoryIdToCategory = getTransactionCategories(transactions, userId)
+        return transactions
+            .map {
+                RichTransaction.fromTransaction(
+                    transaction = it,
+                    account = accountIdToAccount.getOrThrow(it.accountId) { AccountNotFoundException("Account for id ${it.accountId} doesn't exist") },
+                    category = categoryIdToCategory.getOrThrow(it.categoryId) { CategoryNotFoundException("Category for id ${it.categoryId} doesn't exist") }
+                )
+            }
+    }
+
+    private fun getTransactionAccounts(userId: UserId, transactions: List<Transaction>): Map<AccountId, Account> {
+        val accountIds = transactions
+            .map { it.accountId }
+            .toSet()
+        return accountService.getByAccountId(userId = userId, accountIds = accountIds)
+    }
+
+    private fun getTransactionCategories(transactions: List<Transaction>, userId: UserId): Map<CategoryId, Category> {
+        val categoryIds = transactions
+            .map { it.categoryId }
+            .toSet()
+        return categoryService.getByCategoryId(userId = userId, categoryIds = categoryIds)
+    }
 
     fun syncTransactions(userId: UserId) {
-        val user = userService.getUser(userId)
         val lastTransaction = transactionService.getLastTransaction(userId)
-        val fetchFrom = lastTransaction?.date ?: DEFAULT_FETCH_FROM_DATE
+        val fetchFrom = lastTransaction?.date?.toLocalDate() ?: DEFAULT_FETCH_FROM_DATE
         val fetchTo = LocalDate.now()
+        val user = userService.getUser(userId)
         val referenceIdToAccount = accountService.getByReferenceId(userId)
         val fetchedTransactions = transactionService.fetch(
             TransactionFetchForm(

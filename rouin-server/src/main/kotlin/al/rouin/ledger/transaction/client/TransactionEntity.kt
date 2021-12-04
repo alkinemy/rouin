@@ -10,7 +10,7 @@ import al.rouin.ledger.transaction.Transaction
 import al.rouin.ledger.transaction.TransactionId
 import al.rouin.ledger.transaction.TransactionReference
 import al.rouin.user.UserId
-import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.EnumType.STRING
 import javax.persistence.GenerationType.IDENTITY
@@ -34,7 +34,7 @@ class TransactionEntity(
     @Column(name = "name")
     val name: String,
     @Column(name = "date")
-    val date: LocalDate,
+    val date: LocalDateTime,
     @Column(name = "amount")
     val amount: Double,
     @Column(name = "currency")
@@ -55,7 +55,7 @@ class TransactionEntity(
                 categoryId = CategoryId.uncategorized(userId),
                 name = name,
                 amount = amount,
-                date = date,
+                date = date.atStartOfDay(),
                 currency = currency,
                 description = EMPTY_STRING,
                 deleted = false,

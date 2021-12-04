@@ -26,7 +26,7 @@ class TotalBudgetService(
             throw BudgetNotFoundException("User $userId doesn't have the budget on $yearMonth")
         }
         val categoryIdToBudget = budgets.associateBy { it.categoryId }
-        val categories = categoryService.getCategories(userId)
+        val categories = categoryService.getExcludingUnCategorized(userId)
         return TotalBudget(
             yearMonth = yearMonth,
             currency = budgets.first().currency,

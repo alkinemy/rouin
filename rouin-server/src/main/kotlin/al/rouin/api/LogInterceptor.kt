@@ -5,7 +5,6 @@ import al.rouin.common.log.LogContextHolder
 import al.rouin.common.logger
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
-import java.lang.Exception
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.*
@@ -27,10 +26,11 @@ class LogInterceptor(
 
     override fun afterCompletion(request: HttpServletRequest, response: HttpServletResponse, handler: Any, ex: Exception?) {
         logContextHolder.get()
-            ?.let {
+            ?.let { context ->
                 val completedAt = LocalDateTime.now()
-                val requestTime = Duration.between(it.requestedAt, completedAt)
-                log.debug("[API] (${it.requestId}) ${request.method} ${request.requestURI} ${requestTime.toMillis()}ms")
+                val requestTime = Duration.between(context.requestedAt, completedAt)
+                val requestUrl = request.requestURI + (request.queryString?.let { "?$it" } ?: "")
+                log.debug("[API] (${context.requestId}) ${request.method} $requestUrl ${requestTime.toMillis()}ms")
             }
         logContextHolder.clear()
     }

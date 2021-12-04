@@ -36,13 +36,15 @@ data class AccountDto(
     val subType: AccountSubType?,
 ) {
     companion object {
-        fun from(model: Account) = AccountDto(
-            accountId = model.accountId,
-            name = model.name,
-            alias = model.aliasName,
-            officialName = model.officialName,
-            type = model.accountType,
-            subType = model.accountSubType,
-        )
+        fun from(model: Account) = with(model) {
+            AccountDto(
+                accountId = accountId,
+                name = name,
+                alias = aliasName,
+                officialName = officialName,
+                type = accountType,
+                subType = accountSubType,
+            )
+        }
     }
 }

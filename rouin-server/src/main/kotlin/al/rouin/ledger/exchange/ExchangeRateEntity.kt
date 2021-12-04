@@ -19,7 +19,7 @@ data class ExchangeRateEntity(
     @Column(name = "to_currency")
     @Enumerated(STRING)
     val to: CurrencyCode,
-    @Column(name = "rate")
+    @Column(name = "exchange_rate")
     var exchangeRate: Double
 ) : AuditEntity() {
     companion object {

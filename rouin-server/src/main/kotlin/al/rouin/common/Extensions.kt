@@ -23,3 +23,5 @@ fun <T : Any> String.toObject(kClass: KClass<T>): T = OBJECT_MAPPER.readValue(th
 
 fun <T : Any> T?.isNull(): Boolean = this == null
 fun <T : Any> T?.isNotNull(): Boolean = !this.isNull()
+
+fun <T : Any, R : Any> Map<T, R>.getOrThrow(key: T, exceptionSupplier: () -> Exception) = get(key) ?: run { throw exceptionSupplier() }

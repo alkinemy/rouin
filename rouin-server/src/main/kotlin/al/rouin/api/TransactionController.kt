@@ -1,25 +1,26 @@
 package al.rouin.api
 
 import al.rouin.ledger.LedgerService
-import al.rouin.ledger.account.AccountId
 import al.rouin.ledger.exchange.CurrencyCode
-import al.rouin.ledger.transaction.Transaction
+import al.rouin.ledger.transaction.RichTransaction
 import al.rouin.ledger.transaction.TransactionId
 import al.rouin.user.UserId
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDate
+import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
+import java.time.YearMonth
 
 @RestController
 class TransactionController(
     private val ledgerService: LedgerService,
 ) {
     @GetMapping("/api/v1/ledgers/{userId}/transactions")
-    fun getTransactions(@PathVariable userId: UserId): List<TransactionDto> =
-        ledgerService.getTransactions(userId)
-            .map { TransactionDto.from(it) }
+    fun getTransactions(
+        @PathVariable userId: UserId,
+        @RequestParam("year") year: Int, //TODO validation
+        @RequestParam("month") month: Int,
+    ): List<RichTransactionDto> =
+        ledgerService.getRichTransactions(userId = userId, yearMonth = YearMonth.of(year, month))
+            .map { RichTransactionDto.from(it) }
 
     @PostMapping("/api/v1/ledgers/{userId}/transactions/sync")
     fun syncTransactions(@PathVariable userId: UserId) =
@@ -27,26 +28,30 @@ class TransactionController(
 }
 
 
-data class TransactionDto(
+data class RichTransactionDto(
     val transactionId: TransactionId,
     val userId: UserId,
-    val accountId: AccountId,
+    val account: AccountDto,
+    val category: CategoryDto,
     val name: String,
     val amount: Double,
-    val date: LocalDate,
+    val date: LocalDateTime,
     val currency: CurrencyCode,
     val description: String,
 ) {
     companion object {
-        fun from(model: Transaction) = TransactionDto(
-            transactionId = model.transactionId,
-            userId = model.userId,
-            accountId = model.accountId,
-            name = model.name,
-            amount = model.amount,
-            date = model.date,
-            currency = model.currency,
-            description = model.description,
-        )
+        fun from(model: RichTransaction) = with(model) {
+            RichTransactionDto(
+                transactionId = transactionId,
+                userId = userId,
+                account = AccountDto.from(account),
+                category = CategoryDto.from(category),
+                name = name,
+                amount = amount,
+                date = date,
+                currency = currency,
+                description = description,
+            )
+        }
     }
 }
