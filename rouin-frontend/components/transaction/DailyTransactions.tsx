@@ -1,7 +1,7 @@
 import React from "react";
 import DailyTransactionHeader from "./DailyTransactionHeader";
 import {Transaction} from "../../types/transaction";
-import {default as DailyTransaction} from "./Transaction";
+import DailyTransaction from "./DailyTransaction";
 
 
 interface Props {
@@ -13,10 +13,11 @@ interface Props {
 const DailyTransactions: React.FC<Props> = ({date, transactions}) => {
     return (
         <>
-            <DailyTransactionHeader date={date}/>
+            <DailyTransactionHeader date={date} transactions={transactions}/>
             {transactions.map(transaction => (
                 <DailyTransaction key={transaction.transactionId} transaction={transaction}/>
             ))}
+            <div className="mb-8"/>
         </>
     )
 }

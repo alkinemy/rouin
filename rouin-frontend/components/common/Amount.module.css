@@ -1,0 +1,9 @@
+
+
+.positiveTransactionAmount {
+    @apply text-green-600
+}
+
+.negativeTransactionAmount {
+    @apply text-gray-600
+}
