@@ -3,12 +3,14 @@ import {createWrapper, HYDRATE, MakeStore} from "next-redux-wrapper";
 import {TypedUseSelectorHook, useSelector as useReduxSelector} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
 import user from "./user";
+import transaction from "./transaction";
 
 export type RootState = ReturnType<typeof rootReducer>
 
 
 const rootReducer = combineReducers({
     user: user.reducer,
+    transaction: transaction.reducer,
 });
 
 

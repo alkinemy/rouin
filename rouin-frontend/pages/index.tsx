@@ -1,8 +1,9 @@
 import {NextPage} from "next";
+import MonthlyTransactions from "../components/transaction/MonthlyTransactions";
 
 const index: NextPage = () => {
     return (
-        <div></div>
+        <MonthlyTransactions/>
     )
 };
 

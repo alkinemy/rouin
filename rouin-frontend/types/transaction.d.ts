@@ -1,18 +1,4 @@
-import {Account, Category} from "./transaction";
-
-
-export type UserDto = {
-    userId: string;
-    email: string;
-}
-
-
-export type TokenDto = {
-    token: string;
-}
-
-
-export type TransactionDto = {
+export type Transaction = {
     transactionId: string;
     userId: string;
     account: Account;
@@ -25,7 +11,7 @@ export type TransactionDto = {
 }
 
 
-export type AccountDto = {
+export type Account = {
     accountId: string;
     name: string;
     alias: string;
@@ -35,7 +21,7 @@ export type AccountDto = {
 }
 
 
-export type CategoryDto = {
+export type Category = {
     categoryId: string;
     userId: string;
     name: string;

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import {usePlaidLink} from "react-plaid-link";
 import Button from "./common/Button";
 import {useSelector} from "../store";
