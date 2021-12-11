@@ -1,4 +1,5 @@
 import {Transaction} from "./transaction";
+import YearMonth from "../lib/model/YearMonth";
 
 
 export type UserState = {
@@ -8,5 +9,7 @@ export type UserState = {
 }
 
 export type TransactionState = {
+    year: number;
+    month: number;
     transactions: Transaction[]
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const SearchBar: React.FC = () => {
+const TransactionSearchBar: React.FC = () => {
     return (
         <div className="relative">
             <div className="absolute top-0 bottom-0 left-0 flex items-center px-5">
@@ -14,4 +14,4 @@ const SearchBar: React.FC = () => {
     );
 };
 
-export default SearchBar;
+export default TransactionSearchBar;

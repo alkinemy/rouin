@@ -1,8 +1,9 @@
 import axios from "./index";
 import {Transaction} from "../../types/transaction";
+import YearMonth from "../model/YearMonth";
 
 
-const getTransactions = (userId: string, year: number, month: number) => axios.get<Transaction[]>(`/api/v1/ledgers/${userId}/transactions?year=${year}&month=${month}`);
+const getTransactions = (userId: string, yearMonth: YearMonth) => axios.get<Transaction[]>(`/api/v1/ledgers/${userId}/transactions?year=${yearMonth.year}&month=${yearMonth.month}`);
 
 
 export const transactionApis = {getTransactions};
