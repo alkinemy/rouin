@@ -13,7 +13,7 @@ dependencies {
     "implementation"("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}")
     "implementation"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${Versions.jackson}")
 
-    implementation("mysql:mysql-connector-java:8.0.27")
+    "implementation"("mysql:mysql-connector-java:8.0.27")
 
     //bank library
     "implementation"("com.plaid:plaid-java:9.5.0")

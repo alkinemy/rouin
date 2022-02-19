@@ -26,7 +26,8 @@ class ExchangeRateScheduledService(
         val currencyCodes = CurrencyCode.values()
         return currencyCodes.indices
             .flatMap { i ->
-                currencyCodes.indices.minus(0..i)
+                currencyCodes.indices
+                    .minus(0..i)
                     .map { j -> ExchangeRateId.of(from = currencyCodes[i], to = currencyCodes[j]) }
             }
     }

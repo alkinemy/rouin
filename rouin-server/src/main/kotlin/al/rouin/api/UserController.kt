@@ -1,5 +1,6 @@
 package al.rouin.api
 
+import al.rouin.ledger.LedgerService
 import al.rouin.token.PublicToken
 import al.rouin.user.User
 import al.rouin.user.UserId
@@ -11,17 +12,19 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class UserController(
     private val userService: UserService,
+    private val ledgerService: LedgerService,
     @Value("\${rouin.user.email}") private val email: String,
     @Value("\${rouin.user.user-id}") private val userId: String,
 ) {
+
     @PostMapping("/api/v1/users/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    fun signUp(@RequestBody signUpDto: SignUpDto) {
-        userService.create(email = signUpDto.email)
+    fun signUp(@RequestBody dto: SignUpDto) {
+        userService.create(email = dto.email)
     }
 
     @PostMapping("/api/v1/users/sign-in")
-    fun signIn(@RequestBody signInDto: SignInDto): UserDto {
+    fun signIn(@RequestBody dto: SignInDto): UserDto {
         //TODO implement sign-in process
         return UserDto(
             userId = UserId(userId),
@@ -29,18 +32,18 @@ class UserController(
         )
     }
 
-    @PostMapping("/api/v1/users/{userId}/tokens/public")
-    fun registerToken(@PathVariable userId: UserId, @RequestBody tokenDto: PublicTokenDto) {
-        userService.registerToken(
-            userId = userId,
-            token = PublicToken(tokenDto.token)
-        )
-    }
-
-    @PostMapping("/api/v1/users/{userId}/tokens/links")
+    @PostMapping("/api/v1/users/{userId}/tokens")
     fun issueLinkToken(@PathVariable userId: UserId): TokenDto {
         val token = userService.issueLinkToken(userId)
         return TokenDto(token = token.token)
+    }
+
+    @PostMapping("/api/v1/ledgers/{userId}/banks")
+    fun linkBank(@PathVariable userId: UserId, @RequestBody dto: BankLinkDto) {
+        ledgerService.linkBank(
+            userId = userId,
+            token = PublicToken(dto.token)
+        )
     }
 }
 
@@ -73,6 +76,6 @@ data class TokenDto(
 )
 
 
-data class PublicTokenDto(
-    val token: String
+data class BankLinkDto(
+    val token: String,
 )

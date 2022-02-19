@@ -3,11 +3,13 @@ package al.rouin.ledger
 import al.rouin.common.AccountNotFoundException
 import al.rouin.common.CategoryNotFoundException
 import al.rouin.common.getOrThrow
+import al.rouin.common.logger
 import al.rouin.ledger.account.*
 import al.rouin.ledger.category.Category
 import al.rouin.ledger.category.CategoryId
 import al.rouin.ledger.category.CategoryService
 import al.rouin.ledger.transaction.*
+import al.rouin.token.PublicToken
 import al.rouin.user.UserId
 import al.rouin.user.UserService
 import org.springframework.stereotype.Service
@@ -21,6 +23,8 @@ class LedgerService(
     private val categoryService: CategoryService,
     private val transactionService: TransactionService,
 ) {
+    private val logger = this.logger()
+
     companion object {
         private val DEFAULT_FETCH_FROM_DATE = LocalDate.of(2021, 1, 1)
     }
@@ -37,6 +41,12 @@ class LedgerService(
             .filterNot { it.accountSubType == AccountSubType.UNSUPPORTED }
             .toList()
         accountService.register(userId, notRegisteredAccounts)
+    }
+
+    fun linkBank(userId: UserId, token: PublicToken) {
+        userService.registerToken(userId = userId, token = token)
+        syncAccounts(userId)
+        syncTransactions(userId)
     }
 
     fun getRichTransactions(userId: UserId, yearMonth: YearMonth): List<RichTransaction> {
