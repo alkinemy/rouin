@@ -6,13 +6,13 @@ import {userApis} from "../lib/api/user";
 
 
 const BankLinkButton: React.FC = () => {
-    const linkToken = useSelector(state => state.user.linkToken);
+    const token = useSelector(state => state.user.token);
     const userId = useSelector(state => state.user.userId);
     const onSuccessLink = useCallback((publicToken) => {
-        userApis.registerPublicToken(userId, publicToken)
+        userApis.linkBank(userId, publicToken);
     }, []);
     const config: Parameters<typeof usePlaidLink>[0] = {
-        token: linkToken,
+        token: token,
         onSuccess: onSuccessLink,
     };
     const {open, ready} = usePlaidLink(config);

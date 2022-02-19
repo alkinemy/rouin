@@ -19,10 +19,10 @@ const signInAndDispatch = async (store: Store) => {
     }
 }
 
-const issueLinkTokenAndDispatch = async (store: Store, userId: string) => {
+const issueTokenAndDispatch = async (store: Store, userId: string) => {
     try {
-        const {data: linkToken} = await userApis.issueLinkToken(userId);
-        store.dispatch(userActions.setLinkToken(linkToken.token));
+        const {data: token} = await userApis.issueToken(userId);
+        store.dispatch(userActions.setToken(token.token));
     } catch (e) {
         //TODO error handling
         // console.log("Fail to sign in", e);
@@ -41,7 +41,7 @@ const app = ({Component, pageProps}: AppProps) => {
 app.getInitialProps = wrapper.getInitialAppProps(store => async (context: AppContext) => {
     const appInitialProps = await App.getInitialProps(context);
     const user = await signInAndDispatch(store);
-    await issueLinkTokenAndDispatch(store, user.userId);
+    await issueTokenAndDispatch(store, user.userId);
     return {...appInitialProps};
 });
 

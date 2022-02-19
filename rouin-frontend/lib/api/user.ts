@@ -5,10 +5,10 @@ import {TokenDto, UserDto} from "../../types/dto";
 const signIn = () => axios.post<UserDto>("/api/v1/users/sign-in", {email: "test@test.com"})
 
 
-const issueLinkToken = (userId: string) => axios.post<TokenDto>(`/api/v1/users/${userId}/tokens/links`)
+const issueToken = (userId: string) => axios.post<TokenDto>(`/api/v1/users/${userId}/tokens`)
 
 
-const registerPublicToken = (userId: string, publicToken: string) => axios.post<TokenDto>(`/api/v1/users/${userId}/tokens/public`, {token: publicToken})
+const linkBank = (userId: string, publicToken: string) => axios.post<TokenDto>(`/api/v1/ledgers/${userId}/banks`, {token: publicToken})
 
 
-export const userApis = {signIn, issueLinkToken, registerPublicToken};
+export const userApis = {signIn, issueToken, linkBank};
